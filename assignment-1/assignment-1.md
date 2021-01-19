@@ -1,8 +1,6 @@
 # Assignment 1: Game of Life
 
-Kennesaw State University<br>
-College of Computing and Software Engineering<br>
-Department of Computer Science<br>
+KSU College of Computing and Software Engineering<br>
 CS 4306 - Algorithm Analysis
 
 Mae Morella ([mmorella@students.kennesaw.edu](mailto:mmorella@students.kennesaw.edu))<br>
@@ -77,7 +75,11 @@ grid_t next_grid(const grid_t &grid) {
 
 These are both pure functions (i.e. they have no side effects), and that makes them very easy to reason about. This means that rest of the code (handling user input, printing, speed-testing etc.) is fairly trivial. I've chosen to omit it.
 
-## Analysis
+#### Screenshot of execution
+
+<img alt="Screenshot of game-of-life.cpp executing in a terminal. The first 4 iterations are visible." src="screenshot-1.png" width=400>
+
+## Analysis & Conclusion
 
 ### Time complexity
 
@@ -93,10 +95,12 @@ The result was this graph, which seemed to confirm my hypothesis.
 
 The space complexity was similarly simple to reason about: C++ vectors are directly analogous to allocated memory chunks. One C++ boolean usually takes up a single byte, so a matrix of $m \times n$ booleans would occupy m \times n bytes. **The space complexity is linear.**
 
-After looking through some C++ reference documents, it turns out that `std::vector<bool>` actually attempts to save memory by storing each `bool`s as a *bit* rather than a whole byte. On a 64-bit machine, that would mean that each byte .
+After looking through some C++ reference documents, it turns out that `std::vector<bool>` actually attempts to save memory by storing each `bool`s as a *bit* rather than a whole byte:
 
 > The storage is not necessarily an array of bool values, but the library implementation may optimize storage so that each value is stored in a single bit. [...] These changes provide a quirky interface to this specialization and favor memory optimization over processing (which may or may not suit your needs).
 
 See [std::vector<bool> on cplusplus.com](http://www.cplusplus.com/reference/vector/vector-bool/).
+
+On a 64-bit machine, that would mean that each byte of allocated vector memory actually contains 64 of the cell values. Bitwise operations are costly, so while this is good for memory usage, it might be pretty bad for performance.
 
 Sure enough, changing the implementation to avoid this type provided a noticeable increase in speed, at the cost of approximately 64 times the memory.
