@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.template": "cpp",
+    "*.tcc": "cpp",
+    "stdexcept": "cpp"
+  }
+}
