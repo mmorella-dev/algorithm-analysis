@@ -16,8 +16,10 @@ Create a program to perform iterations of Conway's Game of Life
 
 A naive algorithm for finding the next $N$ iterations of Conway's Game of Life:
 
-1. Initialize two 2D boolean matrices, $A$ and $B$.
+1. Initialize two boolean matrices, $A$ and $B$.
 2. Populate $A$ with the current state of the game.
+   a. An element with value $0$ is "dead".
+   b. An element with value $1$ is "alive".
 3. For each element $a_{ij}$ in $A$...
    a. Let $n$ be the count of "neighbor" elements (e.g. $a_{i-1,j-1}\dots a_{i+1,j+1}$) which are equal to $1$.
    b. If $a_{ij} = 0$ and $n = 3$, then $b_{ij} = 1$ ("Birth")
@@ -32,7 +34,7 @@ I implemented the above algorithm in `game_of_life.cpp`, a hasty C++ program. Wh
 
 Here are the most relevant parts of the source code:
 
-To reduce repetition, I define a custom type `grid_t` equivalent to a `std::vector<vector<boolean>>`. Using the `std::vector` here (as opposed to a static array) means the code can easily handle grids anywhere from 5x5 to 500x500, albeit much slower..
+To reduce repetition, I define a custom type `grid_t` equivalent to a `std::vector<vector<boolean>>`. Using the `std::vector` here (as opposed to a static array) means the code can easily handle grids anywhere from 5x5 to 500x500, albeit much slower.
 
 ```cpp
 typedef bool cell_t;
@@ -93,7 +95,7 @@ The result was this graph, which seemed to confirm my hypothesis.
 
 ### Space complexity
 
-The space complexity was similarly simple to reason about: C++ vectors are directly analogous to allocated memory chunks. One C++ boolean usually takes up a single byte, so a matrix of $m \times n$ booleans would occupy m \times n bytes. **The space complexity is linear.**
+The space complexity was similarly simple to reason about: C++ vectors are directly analogous to allocated memory chunks. One C++ boolean usually takes up a single byte, so a matrix of $m \times n$ booleans would occupy$m \times n$ bytes. **The space complexity is linear.**
 
 After looking through some C++ reference documents, it turns out that `std::vector<bool>` actually attempts to save memory by storing each `bool`s as a *bit* rather than a whole byte:
 
