@@ -8,13 +8,17 @@ January 29, 2021
 
 ## Problem Statement
 
-Create a program to perform iterations of Conway's Game of Life
+Create an algorithm to perform iterations of Conway's Game of Life on a $5 \times 5$ and $10 \times 10$ grid, and understand the time and space complexity of that algorithm.
 
 ## Algorithm
 
+The Game of Life is a cellular automata. It can be defined as a 2D grid of cells which can be in an either "alive" or "dead" state. For any state of the cells, the next state is determined by the number of neighbors which each cell has.
+
+A naive algorithm for finding the next $N$ iterations of Conway's Game of Life in a finite grid, is to simply check every single cell for life or death, and place its new value into a new matrix. Because we don't want to change the number of neighbors In a small, finite grid, this is fairly performant, but if we were trying to process an arbitrarily large grid (containing a lot of empty space), we'd want something more performant.
+
 ### Formal definition
 
-A naive algorithm for finding the next $N$ iterations of Conway's Game of Life:
+Using the language of boolean matrices, we can define the simple algorithm like this:
 
 1. Initialize two boolean matrices, $A$ and $B$.
 2. Populate $A$ with the current state of the game.
@@ -25,16 +29,17 @@ A naive algorithm for finding the next $N$ iterations of Conway's Game of Life:
    b. If $a_{ij} = 0$ and $n = 3$, then $b_{ij} = 1$ ("Birth")
    c. If $a_{ij} = 1$ and $2 \le n \le 3$ then $b_{ij} = 1$ ("Survival")
    e. Else, $b_{ij} = 0$ ("Death")
-4. $B$ now contains the 1st iteration. Swap $A \Longleftrightarrow B$.
-5. Repeat from step 3 for $N$ iterations.
+4. $B$ now contains the 1st iteration.
+
+We could then swap $A$ and $B$, and repeat Step 3 for the desired number of iterations.
 
 ### C++ Implementation
 
-I implemented the above algorithm in `game_of_life.cpp`, a hasty C++ program. While C++ is not my most comfortable language, its performance is much easier to predict than Java's.
+I implemented the above algorithm in `game_of_life.cpp`, a hasty C++ program. C++ is not my most comfortable language, but unlike Java, its performance is generally easy to predict. I've done my best to explain the implementation below; the full source file is attached at the end of this document.
 
-Here are the most relevant parts of the source code:
+#### Defining a matrix
 
-To reduce repetition, I define a custom type `grid_t` equivalent to a `std::vector<vector<boolean>>`. Using the `std::vector` here (as opposed to a static array) means the code can easily handle grids anywhere from 5x5 to 500x500, albeit much slower.
+My implementation defines a custom type `grid_t` equivalent to a `std::vector<vector<bool>>` (a 2D vector of booleans), which is equivalent to a boolean matrix. Using the `std::vector` here makes them much easier to construct, destruct, and pass between functions. While this implementation could probably be sped up by judicious use of pointers and low-level memory modification, all solutions which iterate across every cell ("linear solutions") will have the exact same time complexity, regardless of actual compilation and execution speed.
 
 ```cpp
 typedef bool cell_t;
@@ -42,14 +47,37 @@ typedef vector<cell_t> row_t;
 typedef vector<row_t> grid_t; // 2D vector of booleans
 ```
 
-The following function, `cell_will_live` determines whether a given cell lives or dies.
+##### Building a matrix
+
+The following trivial helper functions are used to create grids. `generate_grid_from_cin` uses `std::cin` to read a list of numbers from the user, and use those values to populate the grid.
 
 ```cpp
-// Determines the next state for the cell at the given coordinates.
-// This function encodes the rules for the cellular automata
+// Constructs an empty grid of the given size.
+grid_t generate_grid(grid_t::size_type rows, row_t::size_type cols) { //...
+
+// Prompt the user to input values and construct a grid.
+grid_t generate_grid_from_cin() { //...
+
+// Constructs a square board of the given size populated with random cells.
+grid_t generate_grid_from_random(grid_t::size_type size) {//...
+```
+
+##### Processing the grid
+
+These functions access the resulting grid and determine whether a given cell should live or die.
+
+```cpp
+// Returns whether the cell at row r, col c is alive.
+// All cells outside of the grid are dead.
+bool is_cell_alive(const grid_t &grid, int r, int c) { //...
+
+// For the cell at row r, col c, count how many neighboring cells are alive
+unsigned int count_neighbors(const grid_t &grid, int r, int c) { //...
+
+// Returns the next state for the cell at the given coordinates.
 bool cell_will_live(const grid_t &grid, int r, int c) {
-  bool alive = is_cell_alive(grid, r, c);
-  int neighbors = count_neighbors(grid, r, c);
+  bool alive = is_cell_alive(grid, r, c);      // access the grid cell
+  int neighbors = count_neighbors(grid, r, c); // count this cell's living neighbors
   // alive cells with lt 2 or gt 3 neighbors become dead.
   if (alive && (neighbors < 2 || 3 < neighbors)) return false;
   // Dead cells with 3 neighbors become alive.
@@ -58,7 +86,7 @@ bool cell_will_live(const grid_t &grid, int r, int c) {
 }
 ```
 
-The function `next_grid` iterates over the grid, and generates the next version of the grid.
+The function `next_grid` iterates over the grid, and generates a new grid containing the next iteration.
 
 ```cpp
 // Given a grid, return a new grid with the next state.
@@ -75,9 +103,25 @@ grid_t next_grid(const grid_t &grid) {
 }
 ```
 
-These are both pure functions (i.e. they have no side effects), and that makes them very easy to reason about. This means that rest of the code (handling user input, printing, speed-testing etc.) is fairly trivial. I've chosen to omit it.
+##### Printing multiple iterations
 
-#### Screenshot of execution
+Finally, a function which repeatedly calls `next_grid`, and prints the resulting iterations.
+
+```cpp
+// Given a grid, print out several iterations of it.
+void simulate(grid_t &grid, unsigned int iteration_count) {
+  for (int i = 0; i <= iteration_count; i++) {
+    std::cout << "Iteration #" << i << ":\n";
+    std::cout << grid; // operator<< is overloaded to print the grid nicely.
+    grid = next_grid(grid);
+  }
+}
+
+// Overload the << operator to print the given grid to stdout
+std::ostream &operator<<(std::ostream &out, const grid_t &grid) { //...
+```
+
+### Screenshot of execution
 
 <img alt="Screenshot of game-of-life.cpp executing in a terminal. The first 4 iterations are visible." src="screenshot-1.png" width=400>
 
@@ -191,17 +235,6 @@ unsigned int count_neighbors(const grid_t &grid, int r, int c) {
   return neighbors;
 }
 
-// Overload the << operator to print the given grid to stdout
-std::ostream &operator<<(std::ostream &out, const grid_t &grid) {
-  for (auto it = grid.begin(); it != grid.end(); it++) {
-    for (auto jt = it->begin(); jt != it->end(); jt++) {
-      // swap these characters for prettier output
-      out << (*jt ? "1" : "0") << " ";
-    }
-    out << '\n';
-  }
-  return out;
-}
 
 // Determines the next state for the cell at the given coordinates.
 // This function encodes the rules for the cellular automata
@@ -234,6 +267,18 @@ void simulate(grid_t &grid, unsigned int iteration_count) {
     std::cout << grid;
     grid = next_grid(grid);
   }
+}
+
+// Overload the << operator to print the given grid to stdout
+std::ostream &operator<<(std::ostream &out, const grid_t &grid) {
+  for (auto it = grid.begin(); it != grid.end(); it++) {
+    for (auto jt = it->begin(); jt != it->end(); jt++) {
+      // swap these characters for prettier output
+      out << (*jt ? "1" : "0") << " ";
+    }
+    out << '\n';
+  }
+  return out;
 }
 
 // Main program
