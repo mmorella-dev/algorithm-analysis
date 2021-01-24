@@ -1,4 +1,4 @@
-// game-of-life.cpp
+// game_of_life.cpp
 // AUTHOR: mae morella
 #include <cmath>
 #include <ctime>
