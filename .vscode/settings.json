@@ -1,7 +1,13 @@
 {
   "files.associations": {
     "*.template": "cpp",
+    "*.tw": "twee3",
     "*.tcc": "cpp",
-    "stdexcept": "cpp"
+    "stdexcept": "cpp",
+    "array": "cpp",
+    "string_view": "cpp",
+    "initializer_list": "cpp",
+    "ranges": "cpp",
+    "utility": "cpp"
   }
 }
