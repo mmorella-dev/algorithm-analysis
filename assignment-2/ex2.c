@@ -43,26 +43,26 @@ int main() {
 
 // FUNCTION IMPLEMENTATIONS (defined and documented in ex2.h)
 
-int my_max(int a[], size_t size) {
+int my_max(const int a[], size_t size) {
   int max = a[0];
   for (int i = 1; i < size; i++)
     if (a[i] > max) max = a[i];
   return max;
 }
-double my_avg(int a[], size_t size) {
+double my_avg(const int a[], size_t size) {
   if (size == 0) return 0;
   double sum = 0;
   for (int i = 0; i < size; i++) sum += a[i];
   return sum / size;
 }
-int* my_copy(int a[], size_t size) {
+int* my_copy(const int a[], size_t size) {
   int* copy = (int*)malloc(size * sizeof(int));
   for (int i = 0; i < size; i++) {
     copy[i] = a[i];
   }
   return copy;
 }
-void print_numbers(int a[], size_t size) {
+void print_numbers(const int a[], size_t size) {
   for (int i = 0; i < size; i++) printf("%d ", a[i]);
   printf("\n");
 }
@@ -80,7 +80,7 @@ bool isPrime(long num) {
     if (num % i == 0) return false;
   return true;
 }
-void print_prime_numbers(int a[], size_t size) {
+void print_prime_numbers(const int a[], size_t size) {
   for (int i = 0; i < size; i++) {
     if (isPrime(a[i])) printf("%d ", a[i]);
   }
