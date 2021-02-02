@@ -1,4 +1,4 @@
-// File: ex2.c
+// File: ex2.h
 // Author: Mae Morella
 
 // FUNCTION DECLARATIONS
