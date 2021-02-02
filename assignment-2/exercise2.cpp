@@ -3,9 +3,10 @@
 
 #include "exercise2.hpp"
 
-#include <iostream>  // for std::cout
-#include <numeric>   // for std::accumulate
-#include <vector>    // for std::vector
+#include <functional>  // for std::plus
+#include <iostream>    // for std::cout
+#include <numeric>     // for std::accumulate
+#include <vector>      // for std::vector
 
 int main() {
   using namespace Exercise2;
