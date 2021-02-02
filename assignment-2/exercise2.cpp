@@ -54,10 +54,4 @@ bool isPrime(long num) {
     if (num % i == 0) return false;
   return true;
 }
-void printPrimeNumbers(const vector_t &a) {
-  for (const auto n : a) {
-    if (isPrime(n)) std::cout << n << ' ';
-  }
-  std::cout << '\n';
-}
 }  // namespace Exercise2
