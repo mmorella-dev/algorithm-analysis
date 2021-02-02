@@ -16,7 +16,7 @@ int main() {
   int numbers[] = {10, 5, 15, 12};
   const size_t size = sizeof(numbers) / sizeof(numbers[0]);
 
-  // Calculate print maximum value
+  // Calculate and print maximum value
   int highest = my_max(numbers, size);
   printf("The highest number: %d\n", highest);
 
