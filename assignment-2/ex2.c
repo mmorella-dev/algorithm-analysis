@@ -1,6 +1,9 @@
-// File: ex2.c
-// Author: Mae Morella
-// A source file
+// FILE: ex2.c
+// AUTHOR: Mae Morella
+// ===================
+
+// This file contains implementations for the functions defined in
+
 #include "ex2.h"
 
 #include <stdbool.h>  // for bool type
@@ -9,6 +12,7 @@
 #include <stdlib.h>   // for malloc(size_t size)
 
 // MAIN FUNCTION
+// =============
 
 int main() {
   int numbers[] = {10, 5, 15, 12};
@@ -41,47 +45,53 @@ int main() {
   return 0;
 }
 
-// FUNCTION IMPLEMENTATIONS (defined and documented in ex2.h)
+// FUNCTION IMPLEMENTATIONS
+// ========================
 
-int my_max(const int a[], size_t size) {
+int my_max(const int a[], size_t n) {
   int max = a[0];
-  for (int i = 1; i < size; i++)
+  for (int i = 1; i < n; i++)
     if (a[i] > max) max = a[i];
   return max;
 }
-double my_avg(const int a[], size_t size) {
-  if (size == 0) return 0;
-  double sum = 0;
-  for (int i = 0; i < size; i++) sum += a[i];
-  return sum / size;
+double my_avg(const int a[], size_t n) {
+  double sum = 0.0;
+  for (int i = 0; i < n; i++) {
+    sum += a[i];  // <- implicit cast from int to double
+  }
+  return sum / n;
 }
-int* my_copy(const int a[], size_t size) {
-  int* copy = (int*)malloc(size * sizeof(int));
-  for (int i = 0; i < size; i++) {
+int* my_copy(const int a[], size_t n) {
+  int* copy = (int*)malloc(n * sizeof(int));
+  for (int i = 0; i < n; i++) {
     copy[i] = a[i];
   }
   return copy;
 }
-void print_numbers(const int a[], size_t size) {
-  for (int i = 0; i < size; i++) printf("%d ", a[i]);
+void print_numbers(const int a[], size_t n) {
+  for (int i = 0; i < n; i++) {
+    printf("%d ", a[i]);
+  }
   printf("\n");
 }
-void my_reverse(int a[], size_t size) {
-  int i = 0, j = size;
-  for (int i = 0, j = size - 1; i < j; i++, j--) {
-    int t = a[i];
+void my_reverse(int a[], size_t n) {
+  for (int i = 0; i < n / 2; i++) {
+    int j = (n - 1) - i; // reverse iterator
+    int t = a[i];        // temp storage for swap
     a[i] = a[j];
     a[j] = t;
   }
 }
 bool isPrime(long num) {
   if (num < 2) return false;
-  for (long i = 2; i * i <= num; i++)
+  if (num % 2 == 0) return false;
+  for (long i = 3; i * i <= num; i++) {
     if (num % i == 0) return false;
+  }
   return true;
 }
-void print_prime_numbers(const int a[], size_t size) {
-  for (int i = 0; i < size; i++) {
+void print_prime_numbers(const int a[], size_t n) {
+  for (int i = 0; i < n; i++) {
     if (isPrime(a[i])) printf("%d ", a[i]);
   }
   printf("\n");
