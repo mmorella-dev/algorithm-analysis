@@ -11,10 +11,11 @@
 // assumed to be the number of elements in that array. For all functions
 // with these parameters, the following precondition is implied:
 //
-//   arr[i] is defined for all indices i the range [0, size).
+//   arr[i] is defined for all indices in the range [0, size).
 //
-// As a consequence, these functions do not accept zero-length arrays, nor
-
+// As a consequence, these functions do not accept zero-length arrays, and
+// passing a `size` greater than the array's actual capacity will result in
+// undefined behavior.
 
 #include <stdbool.h>  // for bool type
 #include <stddef.h>   // for size_t definition
@@ -22,26 +23,26 @@
 // FUNCTION DECLARATIONS
 // =====================
 
-// Returns the largest integer in the array
+// Returns the largest integer in the given array
 int my_max(const int arr[], size_t size);
 
-// Returns the average of the integers in the range arr[0, size)
+// Returns the average of the integers in the given array
 double my_avg(const int arr[], size_t size);
 
-// Given an array, returns a pointer to a new array with the same size, and containing same elements as the.
+// Returns a pointer to a new array which is the same size as the given array,
+// and contains the same elements.
 int* my_copy(const int arr[], size_t size);
 
-// Given an array, prints the integers in order.
+// Given an array, prints its elements in order.
 void print_numbers(const int arr[], size_t size);
 
-// Reverses a given array in place.
+// Given an array, reverses the order of its elements.
 // Postcondition: arr is now in reverse order.
 void my_reverse(int arr[], size_t size);
 
-// Returns whether num is a prime number i.e. there exists no integer i > 2
-// such that num/i is an integer.
+// Returns whether the given number is prime.
+// i.e. there exists no integer i > 1 such that num/i is an integer.
 bool isPrime(long num);
 
-// Given an array, prints every integer in the indexes [0, size) which is a
-// prime number.
+// Given an array, print only the elements which are prime numbers
 void print_prime_numbers(const int arr[], size_t size);
