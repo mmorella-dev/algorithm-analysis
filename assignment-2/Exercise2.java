@@ -71,9 +71,7 @@ class Exercise2 {
          int temp = a[i];
          a[i] = a[n - i - 1];
          a[n - i - 1] = temp;
-
       }
-
    }
 
    public static boolean isPrime(long num) {
