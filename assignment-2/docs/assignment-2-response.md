@@ -167,7 +167,9 @@ bool isPrime(long m) {
 ```c
 void print_prime_numbers(const int a[], size_t n) {
   for (int i = 0; i < n; i++) {
-    if (isPrime(a[i])) printf("%d ", a[i]);
+    if (isPrime(a[i])) {
+      printf("%d ", a[i]);
+    }
   }
   printf("\n");
 }
@@ -349,7 +351,9 @@ bool isPrime(long m) {
 }
 void print_prime_numbers(const int a[], size_t n) {
   for (int i = 0; i < n; i++) {
-    if (isPrime(a[i])) printf("%d ", a[i]);
+    if (isPrime(a[i])) {
+      printf("%d ", a[i]);
+    }
   }
   printf("\n");
 }
