@@ -336,12 +336,12 @@ void my_reverse(int a[], size_t n) {
     a[j] = t;
   }
 }
-bool isPrime(long x) {
-  if (x < 2) {
+bool isPrime(long m) {
+  if (m < 2) {
     return false;
   }
-  for (long i = 2; i * i <= x; i++) {
-    if (x % i == 0) {
+  for (long i = 2; i * i <= m; i++) {
+    if (m % i == 0) {
       return false;
     }
   }
