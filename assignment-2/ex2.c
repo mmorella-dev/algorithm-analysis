@@ -42,17 +42,20 @@ void print_numbers(const int a[], size_t n) {
 }
 void my_reverse(int a[], size_t n) {
   for (int i = 0; i < n / 2; i++) {
-    int j = (n - 1) - i; // reverse iterator
-    int t = a[i];        // temp storage for swap
+    int j = (n - 1) - i;  // reverse iterator
+    int t = a[i];         // temp storage for swap
     a[i] = a[j];
     a[j] = t;
   }
 }
 bool isPrime(long num) {
-  if (num < 2) return false;
-  if (num % 2 == 0) return false;
-  for (long i = 3; i * i <= num; i++) {
-    if (num % i == 0) return false;
+  if (num < 2) {
+    return false;
+  }
+  for (long i = 2; i * i <= num; i++) {
+    if (num % i == 0) {
+      return false;
+    }
   }
   return true;
 }
