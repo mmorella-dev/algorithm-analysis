@@ -96,6 +96,15 @@ int my_max(const int a[], size_t n) {
   return max;
 }
 ```
+
+The *basic operation* (or, most time-consuming operation) of this function is to access the array at `a[i]`, and compare it against the previously found value stored in `max`. The for loop executes that operation once for every integer in the range $\left[1, n\right)$. Therefore, we can define a time function $C(n)$ as follows:
+
+$$
+C(n) = \sum\limits_{i = 1}^{n-1} 1 = n - 1 \in \Theta(n)
+$$
+
+The time complexity of `my_max` is $\Theta(n)$, where $n$ is the size of the input array.
+
 ### 2. The "average value" function (`my_avg`)
 
 ```c
@@ -110,6 +119,14 @@ double my_avg(const int a[], size_t n) {
 }
 ```
 
+We can observe that this function's basic operation is accessing the array at `a[i]`, implicitly casing it to a double, and adding it to the variable `sum`.  The for loop executes once for every integer in the range $[0, n)$.
+
+$$
+C(n) = \sum\limits_{i = 0}^{n-1} 1 = n \in \Theta(n)
+$$
+
+The running time of `my_avg` is within $\Theta(n)$.
+
 ### 3. The "array copy" function (`my_copy`)
 
 ```c
@@ -122,6 +139,35 @@ int* my_copy(const int a[], size_t n) {
 }
 ```
 
+In this function, there are two "basic operations", and it is not certain which one will take more time.
+
+#### Operation 1: Allocate memory
+
+This function's first operation is to call the C `malloc` function. `malloc` allocates a block of heap memory, and return a pointer to that memory. This block is made up of $n$ "chunks" of memory, where each "chunk" is the number of bytes needed to store an `int` value.
+
+The exact running time of this memory allocation is not certain, as it is defined by the implementation. It's easy to imagine that a naive implementation would perform at most one basic operation per each allocated byte, and so we can assume an upper bound of $O(n)$. However, many systems are known to use efficient $O(1)$ algorithms (source: ["Time complexity of memory allocation"](https://stackoverflow.com/questions/282926/time-complexity-of-memory-allocation) from stackoverflow.com). I'll assume that the complexity will have an upper bound such that $t_1(n) \in O_1(n)$, and a lower bound such that $t_1(n) \in \Omega(1)$.
+
+#### Operation 2: Copy array
+
+The other basic operation of this function is the "copy" operation of `a[i]`, and assigning that value to `b[i]`. This occurs within a for loop from $0$ to $n-1$. As shown in the above cases, we can trivially show that this loop will have a tightly bounded linear time complexity, $t_2(n) \in \Theta(n)$.
+
+#### Putting them together
+
+The textbook gives the following theorem for finding the time complexity resulting from performing two algorithms in sequence:
+
+$$
+\begin{align*}
+\text{If } t_1(n) &\in O(g_1(n))\text{, and } t_2(n) \in O(g_2(n))\text{, then}, \\
+&t_1(n) + t_2(n) \in O(\max\{g_1(n), g_2(n)\})
+\end{align*}
+$$
+
+Between the two operations, the maximum time complexity is $O(n)$. Therefore, the combination of these two operations $t_1(n) + t_2(n)$ is also in $O(n)$.
+
+We can apply the same theorem to the lower bounds. We know that $t_1(n) \in \Omega(1)$ and $t_2(n) \in \Omega(n)$, therefore $t_1(n) + t_2(n) \in \Omega(n)$.
+
+Assuming that the `malloc` operation is in $O(n)$, we can therefore conclude that the running time complexity of this `my_copy` implementation is within $\Theta(n)$. In other words, it is **strictly linear**.
+
 ### 4. The "print array" function (`print_numbers`)
 
 ```c
@@ -132,6 +178,14 @@ void print_numbers(const int a[], size_t n) {
   printf("\n");
 }
 ```
+
+This function iterates over the array, and prints each item to the console.
+
+$$
+C(n) = \sum\limits_{i = 0}^{n-1} 1 = n \in \Theta(n)
+$$
+
+Like the **strictly linear** array functions described above, this algorithm is also $\Theta(n)$.
 
 ### 5. The "reverse in place" function (`my_reverse`)
 
@@ -145,6 +199,14 @@ void my_reverse(int a[], size_t n) {
   }
 }
 ```
+
+This function reverses an array in place. It loops on the range $[0, \frac{n}{2})$, and so executes the "swap" operation exactly $\frac12 n$ times.
+
+$$
+C(n) = \sum\limits_{i = 0}^{n/2 - 1} 1 = \frac n2 \in \Theta(n)
+$$
+
+This results in the **strictly linear** time complexity $\Theta(\frac12 n)$, which is equivalent to $\Theta(n)$.
 
 ### 6. The "check if prime" function (`is_prime`)
 
@@ -162,6 +224,26 @@ bool isPrime(long m) {
 }
 ```
 
+This function calculates the primality of an integer $m$ by dividing it against every natural number in the range $[2, \sqrt m]$. In the worst case (i.e. a prime is found), the maximum number of basic operations needed to do so is defined by:
+
+$$
+C_{worst}(m) = \sum\limits_{i = 2}^{\sqrt{m}} 1 = \sqrt{m} - 2 \in O(\sqrt{m})
+$$
+
+If $m$ were the input size, this would normally imply that the algorithm is $\in O(\sqrt m)$, and therefore sublinear. However, conventionally, the "input size" for this algorithm is not $m$'s *value*, but rather its *length*, i.e. the approximate number of bits (or keystrokes, hex digits, etc) needed to represent it. We know that $m = 2^n - 1$ where $n$ is the number of bits needed to represent m. Therefore we can substitute that value for $m$ in the above function to find the complexity in terms of size $n$:
+
+$$
+C_{worst}(n) = \sum\limits_{i = 2}^{\sqrt{2^n - 1}} 1 = \sqrt{2^n-1} - 2 \in  O(2^{n/2})
+$$
+
+In all cases where $m$ is an even number divisible by two, the loop will perform only one operation before exiting. In other words, for all even numbers, the execution will be constant.
+
+$$
+C(1) = \sum\limits_{i = 2}^{\sqrt 1} 1 = 0 \in \Omega(1)
+$$
+
+Therefore, in terms of the binary input size $n$ (equal to $\lceil log_2 n\rceil$), `is_prime` has an **exponential** upper bound $O(2^{n/2})$ and a **constant** lower bound $\Omega(1)$.
+
 ### 7. The "print only primes" function (`print_prime_numbers`)
 
 ```c
@@ -174,6 +256,22 @@ void print_prime_numbers(const int a[], size_t n) {
   printf("\n");
 }
 ```
+
+This function iterates over the array, checks whether each number is prime, and if it is, prints it. In this case, the basic operation is the inner loop of `is_prime`, a function we know to have exponential complexity in the worst case.
+
+Suppose the input array $A$:
+
+$$
+A = \{A_0, A_1, \dots,A_{n-1}\}
+$$
+
+The complexity of this function relies simultaneously on the size of the input array $n = |A|$, and the length of the biggest input inside the array, $m = log_2 (A_{max})$.
+
+$$
+C(n, m) = \sum\limits_{i = 0}^{n - 1} \left( \sum\limits_{i = 2}^{\sqrt{2^m - 1}} 1 \right) \in O(n \cdot 2^{m/2})
+$$
+
+Therefore, the time complexity of `print_prime_numbers` has an upper bound $O(n \cdot 2^{m/2})$.
 
 ## Appendix A: Screenshots of execution
 
