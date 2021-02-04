@@ -48,7 +48,7 @@ void my_reverse(int a[], size_t n) {
     a[j] = t;
   }
 }
-bool isPrime(long m) {
+bool is_prime(long m) {
   if (m < 2) {
     return false;
   }
@@ -61,7 +61,7 @@ bool isPrime(long m) {
 }
 void print_prime_numbers(const int a[], size_t n) {
   for (int i = 0; i < n; i++) {
-    if (isPrime(a[i])) {
+    if (is_prime(a[i])) {
       printf("%d ", a[i]);
     }
   }

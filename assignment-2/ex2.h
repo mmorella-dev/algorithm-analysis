@@ -42,7 +42,7 @@ void my_reverse(int arr[], size_t size);
 
 // Returns whether the given number is prime.
 // i.e. there exists no integer i > 1 such that num/i is an integer.
-bool isPrime(long num);
+bool is_prime(long num);
 
 // Given an array, print only the elements which are prime numbers
 void print_prime_numbers(const int arr[], size_t size);
