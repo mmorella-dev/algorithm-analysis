@@ -3,9 +3,6 @@
 KSU College of Computing and Software Engineering<br>
 CS 4306 - Algorithm Analysis
 
-Mae Morella ([mmorella@students.kennesaw.edu](mailto:mmorella@students.kennesaw.edu))<br>
-January 29, 2021
-
 ## Problem Statement
 
 Create an algorithm to perform iterations of Conway's Game of Life on a $5 \times 5$ and $10 \times 10$ grid, and understand the time and space complexity of that algorithm.
