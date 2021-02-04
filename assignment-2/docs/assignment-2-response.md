@@ -2,10 +2,6 @@
 
 KSU College of Computing and Software Engineering<br>
 CS 4306 - Algorithm Analysis
-
-Mae Morella ([mmorella@students.kennesaw.edu](mailto:mmorella@students.kennesaw.edu))<br>
-February 1, 2021
-
 ## Problem Statement
 
 1. Given the Java source file `Exercise2.java`, rewrite all of its functionality in C/C++.
