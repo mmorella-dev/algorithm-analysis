@@ -100,9 +100,7 @@ priority_queue *alloc_priority_queue(size_t capacity) {
 size_t priority_queue_size(priority_queue *q) { return q->size; }
 
 value_t priority_queue_peek_min(priority_queue *q) {
-  if (q->size < 1) {
-    fprintf(stderr, "heap empty.");
-  }
+  assert(q->size > 0);
   return heap_minimum(q->arr, q->size);
 }
 
