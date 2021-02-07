@@ -1,4 +1,4 @@
-// FILE: heap0.h
+// FILE: minheap0.h
 // AUTHOR: Mae Morella
 //
 // Explain here
