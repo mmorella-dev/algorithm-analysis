@@ -5,17 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C++: Build and debug active directory",
+      "name": "C: Build and debug active directory",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${fileDirname}/main.out",
+      "program": "${fileDirname}/a.out",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "lldb",
-      "preLaunchTask": "C/C++: clang++ build *.cpp in active dir"
+      "preLaunchTask": "C: clang build *.c in active dir"
     }
   ]
 }

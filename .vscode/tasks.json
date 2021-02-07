@@ -2,15 +2,16 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "C/C++: clang++ build *.cpp in active dir",
-      "command": "clang++",
+      "label": "C: clang build *.c in active dir",
+      "command": "clang",
       "args": [
         "-g",
         "-Wall",
-        "-std=c++17",
-        "*.cpp",
+        "-Wpedantic",
+        "-std=c17",
+        "*.c",
         "-o",
-        "main.out"
+        "a.out"
       ],
       "options": {
         "cwd": "${fileDirname}"
