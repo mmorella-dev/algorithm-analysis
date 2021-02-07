@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>  // for size_t
+#include <assert.h>
 
 // HEAP FUNCTIONS
 // ================
@@ -57,11 +58,9 @@ void min_heapsort(value_t a[], size_t length) {
 }
 
 // Helper function for inserting a new node
+// Precondition: `key` is smaller than the value at a[i].
 void heap_decrease_key(value_t a[], size_t i, value_t key) {
-  if (key > a[i]) {
-    fprintf(stderr, "Error: new key is greater than current key");
-    return;
-  }
+  assert(a[i] >= key);
   a[i] = key;
   while (i > 0 && a[parent(i)] > a[i]) {
     value_t temp = a[i];
@@ -74,10 +73,7 @@ void heap_decrease_key(value_t a[], size_t i, value_t key) {
 value_t heap_minimum(value_t a[], size_t heap_size) { return a[0]; }
 
 value_t heap_extract_min(value_t a[], size_t heap_size) {
-  if (heap_size < 1) {
-    fprintf(stderr, "Error: heap underflow. Exiting...\n");
-    exit(EXIT_FAILURE);
-  }
+  assert(heap_size > 0);
   value_t min = a[0];
   a[0] = a[--heap_size - 1];
   min_heapify(a, heap_size, 0);
