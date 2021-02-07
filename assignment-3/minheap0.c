@@ -1,8 +1,8 @@
-// FILE: minheap0.c
+// FILE:   minheap0.c
 // AUTHOR: Mae Morella
+// ===================
 //
 // Implements the algorithms defined in minheap0.h
-// ============================================================================
 
 #include "minheap0.h"
 
@@ -40,14 +40,14 @@ void min_heapify(value_t a[], size_t heap_size, size_t i) {
 // FUNCTION IMPLEMENTATIONS
 // ========================
 
-void build_min_heap(value_t a[], size_t length) {
+void min_heap_build(value_t a[], size_t length) {
   for (int i = length / 2; 0 <= i; --i) {
     min_heapify(a, length, i);
   }
 }
 
 void min_heapsort(value_t a[], size_t length) {
-  build_min_heap(a, length);
+  min_heap_build(a, length);
   for (int i = length; 2 <= i; --i) {
     value_t temp = a[i - 1];
     a[i - 1] = a[0];
@@ -70,9 +70,9 @@ void heap_decrease_key(value_t a[], size_t i, value_t key) {
   }
 }
 
-value_t heap_minimum(value_t a[], size_t heap_size) { return a[0]; }
+value_t min_heap_minimum(const value_t a[], size_t heap_size) { return a[0]; }
 
-value_t heap_extract_min(value_t a[], size_t heap_size) {
+value_t min_heap_extract_min(value_t a[], size_t heap_size) {
   assert(heap_size > 0);
   value_t min = a[0];
   a[0] = a[--heap_size - 1];
@@ -80,7 +80,7 @@ value_t heap_extract_min(value_t a[], size_t heap_size) {
   return min;
 }
 
-void heap_insert(value_t a[], size_t heap_size, value_t key) {
+void min_heap_insert(value_t a[], size_t heap_size, value_t key) {
   a[heap_size] = MIN_HEAP_MAX_NUMBER;
   heap_decrease_key(a, heap_size, key);
 }
@@ -97,21 +97,18 @@ priority_queue *alloc_priority_queue(size_t capacity) {
   return p;
 }
 
-size_t priority_queue_size(priority_queue *q) { return q->size; }
+size_t priority_queue_size(const priority_queue *q) { return q->size; }
 
-value_t priority_queue_peek_min(priority_queue *q) {
+value_t priority_queue_peek_min(const priority_queue *q) {
   assert(q->size > 0);
-  return heap_minimum(q->arr, q->size);
+  return min_heap_minimum(q->arr, q->size);
 }
 
 void priority_queue_pop_min(priority_queue *q) {
-  heap_extract_min(q->arr, q->size--);
+  min_heap_extract_min(q->arr, q->size--);
 }
 
 void priority_queue_insert(priority_queue *q, value_t key) {
-  if (q->size >= q->capacity) {
-    fprintf(stderr, "heap full. value not inserted.\n");
-    return;
-  }
-  heap_insert(q->arr, q->size++, key);
+  assert(q->size < q->capacity);
+  min_heap_insert(q->arr, q->size++, key);
 }

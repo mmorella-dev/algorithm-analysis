@@ -1,8 +1,7 @@
-// FILE: minheap0.h
+// FILE:   minheap0.h
 // AUTHOR: Mae Morella
-//
+// ===================
 // Explain here
-// ============================================================================
 
 #include <limits.h>  // for INT_MAX
 #include <stdlib.h>  // for size_t
@@ -10,12 +9,12 @@
 typedef int value_t;                 // the number type used inside the queue
 #define MIN_HEAP_MAX_NUMBER INT_MAX  // the largest number for the above type
 
-// PRIORITY QUEUE FUNCTIONS
-// ========================
+// PRIORITY QUEUE DATA STRUCTURE
+// =============================
 
-// Represents a minimum priority queue data structure of dynamic size. Maintains
-// the covariant that the internal array is in min-heap order, and that
-// heap_size is tracked.
+// Represents a minimum priority queue data structure of dynamic size.
+// If the queue is only modified by the given functions, its internal array arr
+// will maintain the min-heap property for the elements [0, size)
 typedef struct priority_queue {
   size_t capacity;  // the maximum number of elements the queue can hold
   size_t size;      // the current number of elements in the queue
@@ -23,41 +22,65 @@ typedef struct priority_queue {
 } priority_queue;
 
 // Creates a new priority_queue of the given capacity
-// Postcondition: the priority_queue
-// If allocation, prints an error message and returns a NULL ptr.
+// Precondition: capacity > 0
+// Postcondition: the return value points to a priority_queue, or is NULL
 priority_queue *alloc_priority_queue(size_t capacity);
 
-// Returns the number of elements in a priority queue
-size_t priority_queue_size(priority_queue *q);
+// Returns the smallest element in the queue.
+// Precondition: q.size != 0 (the queue is not empty)
+value_t priority_queue_peek_min(const priority_queue *q);
 
-//
+// Returns the number of elements in a priority queue
+// Equivalent to accessing q.size
+size_t priority_queue_size(const priority_queue *q);
+
+// Removes the smallest element in the queue.
+// To access it first, use priority_queue_peek_min
+// Postcondition: queue size is smaller by 1.
 void priority_queue_pop_min(priority_queue *q);
 
+// Adds a new element to the queue.
+// Precondition: q.size != q.capacity (the queue is not full)
 void priority_queue_insert(priority_queue *q, value_t key);
+
+// DESCENDING HEAP SORT FUNCTION
+// =============================
+
+// Sorts an array in place using a min-heap.
+// Precondition: `a` points to an unordered array
+// Postcondition: `a` is sorted in descending order.
+void min_heapsort(value_t a[], size_t length);
 
 // MINIMUM HEAP FUNCTIONS
 // ======================
+// Algorithms described in the textbook for creating and manipulating minimum
+// heaps. used here to implement the priority queue and heap sort functions.
+// A min-heap is a
 
 // Produces a minimum-heap from an unordered input array.
 // Precondition: `a` is an unsorted array
-// Postcondition: `a` is now in min heap order.
-void build_min_heap(value_t a[], size_t length);
+// Postcondition: `a` is now in min-heap order.
+void min_heap_build(value_t a[], size_t length);
 
-// Sorts an array in descending order using a min-heap.
-// Precondition: `a` points to an unordered array
-// Postcondition: `a` is now sorted in place.
-void min_heapsort(value_t a[], size_t length);
+// Precondition: If they exist, the binary trees rooted at a[2i+1] and a[2i+2]
+// are min-heaps. heap_size < i.
+// Postcondition: The binary tree rooted at a[i] is a min-heap.
+void min_heapify(value_t a[], size_t heap_size, size_t i);
 
 // Returns the smallest value in the heap.
 // Precondition: `a` is a min-heap with at least one element
-value_t heap_minimum(value_t a[], size_t heap_size);
+value_t min_heap_minimum(const value_t a[], size_t heap_size);
 
 // Extracts the smallest value in a heap.
 // Precondition: a[0...size) is a min-heap
 // Postcondition: heap_size -= 1
-value_t heap_extract_min(value_t a[], size_t heap_size);
+value_t min_heap_extract_min(value_t a[], size_t heap_size);
 
 // Inserts a new element into a min heap
 // Precondition:  a[0...size) is a min heap. a is defined for a[0...size+1)
 // Postcondition: heap_size is now increased by 1
-void heap_insert(value_t a[], size_t heap_size, value_t key);
+void min_heap_insert(value_t a[], size_t heap_size, value_t key);
+
+// Assigns the value at a[i] to `key` while maintaining the min-heap property.
+// Precondition: `key` is smaller than the previous value at a[i].
+void heap_decrease_key(value_t a[], size_t i, value_t key);
