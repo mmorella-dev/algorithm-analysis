@@ -38,7 +38,6 @@ value_t priority_queue_peek_min(const priority_queue *q);
 size_t priority_queue_size(const priority_queue *q);
 
 // Removes the smallest element in the queue.
-// To access it first, use priority_queue_peek_min
 // Postcondition: queue size is smaller by 1.
 void priority_queue_pop_min(priority_queue *q);
 
