@@ -42,7 +42,7 @@ void heap_decrease_key(value_t heap[], size_t i, value_t key) {
     return;
   }
   heap[i - 1] = key;
-  while (i > 1 && heap[parent(i) - 1] < heap[i - 1]) {
+  while (i > 1 && heap[parent(i) - 1] > heap[i - 1]) {
     value_t temp = heap[i - 1];
     heap[i - 1] = heap[parent(i) - 1];
     heap[parent(i) - 1] = temp;
