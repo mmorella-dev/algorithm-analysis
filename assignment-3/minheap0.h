@@ -9,40 +9,6 @@
 typedef int value_t;                 // the number type used inside the queue
 #define MIN_HEAP_MAX_NUMBER INT_MAX  // the largest number for the above type
 
-// PRIORITY QUEUE DATA STRUCTURE
-// =============================
-
-// Represents a minimum priority queue data structure of dynamic size.
-// If the queue is only modified by the given functions, its internal array arr
-// will maintain the min-heap property for the elements [0, size)
-typedef struct priority_queue {
-  size_t capacity;  // the maximum number of elements the queue can hold
-  size_t size;      // the current number of elements in the queue
-  value_t arr[];    // an array of size `capacity`. [0, size)
-} priority_queue;
-
-// Creates a new priority_queue of the given capacity
-// Precondition: capacity > 0
-// Postcondition: the return value points to a priority_queue, or is NULL
-priority_queue *alloc_priority_queue(size_t capacity);
-
-// Returns the smallest element in the queue.
-// Precondition: q.size != 0 (the queue is not empty)
-value_t priority_queue_peek_min(const priority_queue *q);
-
-// Returns the number of elements in a priority queue
-// Equivalent to accessing q.size
-size_t priority_queue_size(const priority_queue *q);
-
-// Removes the smallest element in the queue.
-// To access it first, use priority_queue_peek_min
-// Postcondition: queue size is smaller by 1.
-void priority_queue_pop_min(priority_queue *q);
-
-// Adds a new element to the queue.
-// Precondition: q.size != q.capacity (the queue is not full)
-void priority_queue_insert(priority_queue *q, value_t key);
-
 // DESCENDING HEAP SORT FUNCTION
 // =============================
 
@@ -55,7 +21,6 @@ void min_heapsort(value_t a[], size_t length);
 // ======================
 // Algorithms described in the textbook for creating and manipulating minimum
 // heaps. used here to implement the priority queue and heap sort functions.
-// A min-heap is a
 
 // Produces a minimum-heap from an unordered input array.
 // Precondition: `a` is an unsorted array
