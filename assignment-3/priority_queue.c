@@ -2,9 +2,12 @@
 // AUTHOR: Mae Morella
 // ========================
 
-#include "minheap0.h"
-
 #include "priority_queue.h"
+
+#include <assert.h>  // for assert
+#include <stddef.h>  // for size_t
+
+#include "minheap0.h"
 
 // PRIORITY QUEUE FUNCTIONS
 // ========================
