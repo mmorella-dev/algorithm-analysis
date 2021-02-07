@@ -30,10 +30,11 @@ void min_heapsort(value_t a[], size_t length);
 value_t heap_minimum(value_t heap[], size_t size);
 
 // Extracts the smallest value in the heap.
-// Precondition: `heap` is a min-heap with at least one element
+// Precondition: a[] is a min-heap with at least one element
 // Postcondition: heap_size -= 1
-value_t heap_extract_min(value_t heap[], size_t size);
+value_t heap_extract_min(value_t heap[], size_t heap_size);
 
 // Inserts a new element into a min heap
-// Precondition: heap[] is a min heap, with a capacity of at least size + 1
-void heap_insert(value_t heap[], size_t size, value_t key);
+// Precondition:  a[] is a min heap, with a capacity of at least size + 1
+// Postcondition: heap_size is now increased by 1
+void heap_insert(value_t a[], size_t heap_size, value_t key);
