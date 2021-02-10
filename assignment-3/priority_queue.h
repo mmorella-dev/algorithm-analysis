@@ -8,9 +8,9 @@
 
 #include <stdlib.h>  // for size_t
 
-#include "minheap0.h"  // for value_t
+#include "minheap0.h"  // for heap_value_t
 
-typedef value_t value_t;  // The numeric type stored in the queue.
+typedef heap_value_t queue_value_t;  // The numeric type stored in the queue.
 
 // PRIORITY QUEUE DATA STRUCTURE
 // =============================
@@ -19,9 +19,9 @@ typedef value_t value_t;  // The numeric type stored in the queue.
 // If the queue is only modified by the given functions, its internal array arr
 // will maintain the min-heap property for the elements [0, size)
 typedef struct priority_queue {
-  size_t capacity;  // the maximum number of elements the queue can hold
-  size_t size;      // the current number of elements in the queue
-  value_t arr[];    // an array of size `capacity`. [0, size)
+  size_t capacity;      // the maximum number of elements the queue can hold
+  size_t size;          // the current number of elements in the queue
+  queue_value_t arr[];  // an array of size `capacity`. [0, size)
 } priority_queue;
 
 // Creates a new priority_queue of the given capacity
@@ -31,7 +31,7 @@ priority_queue *alloc_priority_queue(size_t capacity);
 
 // Returns the smallest element in the queue.
 // Precondition: q.size != 0 (the queue is not empty)
-value_t priority_queue_peek_min(const priority_queue *q);
+queue_value_t priority_queue_peek_min(const priority_queue *q);
 
 // Returns the number of elements in a priority queue
 // Equivalent to accessing q.size
@@ -43,4 +43,4 @@ void priority_queue_pop_min(priority_queue *q);
 
 // Adds a new element to the queue.
 // Precondition: q.size != q.capacity (the queue is not full)
-void priority_queue_insert(priority_queue *q, value_t key);
+void priority_queue_insert(priority_queue *q, queue_value_t key);
