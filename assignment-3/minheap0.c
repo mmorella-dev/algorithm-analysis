@@ -23,10 +23,10 @@ void heapify(heap_value_t a[], size_t heap_size, size_t i) {
   size_t l = left(i);
   size_t r = right(i);
   size_t smallest = i;
-  if (l < heap_size && lt(a[l], a[smallest])) {
+  if (l < heap_size && a[l] < a[smallest]) {
     smallest = l;
   }
-  if (r < heap_size && lt(a[r], a[smallest])) {
+  if (r < heap_size && a[r] < a[smallest]) {
     smallest = r;
   }
   if (smallest != i) {
@@ -62,7 +62,7 @@ void heap_sort(heap_value_t a[], size_t length) {
 void heap_decrease_key(heap_value_t a[], size_t i, heap_value_t key) {
   // assert(lte(key, a[i]));
   a[i] = key;
-  while (i > 0 && lt(a[i], a[parent(i)])) {
+  while (i > 0 && a[i] < a[parent(i)]) {
     heap_value_t temp = a[i];
     a[i] = a[parent(i)];
     a[parent(i)] = temp;

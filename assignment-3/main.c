@@ -39,7 +39,7 @@ bool is_heap(heap_value_t arr[], size_t i, size_t size) {
 // Checks whether the given array is in descending order
 bool is_descending(heap_value_t arr[], size_t size) {
   for (int i = 1; i < size; i++) {
-    if (!lte(arr[i], arr[i - 1])) return false;
+    if (arr[i] > arr[i - 1]) return false;
   }
   return true;
 }

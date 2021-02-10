@@ -19,12 +19,6 @@ typedef int heap_value_t;       // the type used inside the heap
 // COMPARISON FUNCTIONS
 // ====================
 
-// Returns whether the priority of a is less than b
-static inline int lt(heap_value_t a, heap_value_t b) { return a < b; }
-// Returns whether the priority of a is less than or equal to b.
-static inline int lte(heap_value_t a, heap_value_t b) {
-  return a <= b;
-}
 
 // DESCENDING HEAP SORT FUNCTION
 // =============================
