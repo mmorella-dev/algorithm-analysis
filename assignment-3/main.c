@@ -16,20 +16,20 @@
 
 // Helper function to print an array
 // Prints out the array elements at arr[0, size)
-void print_array(int arr[], size_t size) {
+void print_array(heap_value_t arr[], size_t size) {
   for (int i = 0; i < size; i++) printf("%2d ", arr[i]);
   printf("\n");
 }
 
 // Helper function:
 // Checks whether the given array is in heap order.
-bool is_heap(int arr[], size_t i, size_t size) {
+bool is_heap(heap_value_t arr[], size_t i, size_t size) {
   size_t l = 2 * i + 1;
   size_t r = 2 * i + 2;
   if (r >= size) {
     return true;
   }
-  if (arr[i] <= arr[l] && arr[i] <= arr[r]) {
+  if (lte(arr[i], arr[l]) && lte(arr[i], arr[r])) {
     return is_heap(arr, l, size) && is_heap(arr, r, size);
   }
   return false;
@@ -37,16 +37,16 @@ bool is_heap(int arr[], size_t i, size_t size) {
 
 // Helper function:
 // Checks whether the given array is in descending order
-bool is_descending(int arr[], size_t size) {
+bool is_descending(heap_value_t arr[], size_t size) {
   for (int i = 1; i < size; i++) {
-    if (arr[i] > arr[i - 1]) return false;
+    if (!lte(arr[i], arr[i - 1])) return false;
   }
   return true;
 }
 
 int main() {
   // Initialize an unsorted array of integers:
-  int nums[] = {8, 6, 7, 5, 3, 0, 9, 80, 60, 70, 50, 30, 0, 90};
+  heap_value_t nums[] = {8, 6, 7, 5, 3, 0, 9, 80, 60, 70, 50, 30, 0, 90};
   const size_t nums_len = sizeof(nums) / sizeof(nums[0]);
   printf("- Original array: ");
   print_array(nums, nums_len);

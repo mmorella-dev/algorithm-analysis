@@ -23,10 +23,10 @@ void min_heapify(heap_value_t a[], size_t heap_size, size_t i) {
   size_t l = left(i);
   size_t r = right(i);
   size_t smallest = i;
-  if (l < heap_size && a[l] < a[smallest]) {
+  if (l < heap_size && lt(a[l], a[smallest])) {
     smallest = l;
   }
-  if (r < heap_size && a[r] < a[smallest]) {
+  if (r < heap_size && lt(a[r], a[smallest])) {
     smallest = r;
   }
   if (smallest != i) {
@@ -58,11 +58,11 @@ void min_heapsort(heap_value_t a[], size_t length) {
 }
 
 // Helper function for inserting a new node
-// Precondition: `key` is smaller than the value at a[i].
+// Precondition: `key` is not greater than the value at a[i].
 void heap_decrease_key(heap_value_t a[], size_t i, heap_value_t key) {
-  assert(a[i] >= key);
+  // assert(lte(key, a[i]));
   a[i] = key;
-  while (i > 0 && a[parent(i)] > a[i]) {
+  while (i > 0 && lt(a[i], a[parent(i)])) {
     heap_value_t temp = a[i];
     a[i] = a[parent(i)];
     a[parent(i)] = temp;
@@ -81,6 +81,6 @@ heap_value_t min_heap_extract_min(heap_value_t a[], size_t heap_size) {
 }
 
 void min_heap_insert(heap_value_t a[], size_t heap_size, heap_value_t key) {
-  a[heap_size] = HEAP_VALUE_MAX;
+  // a[heap_size] = HEAP_VALUE_MAX;
   heap_decrease_key(a, heap_size, key);
 }

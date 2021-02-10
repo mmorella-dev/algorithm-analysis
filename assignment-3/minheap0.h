@@ -12,9 +12,19 @@
 
 #include <limits.h>  // for INT_MAX
 #include <stdlib.h>  // for size_t
+#include <math.h>
 
-typedef int heap_value_t;  // the number type used inside the heap
-#define HEAP_VALUE_MAX INT_MAX  // the largest number of this type
+typedef int heap_value_t;       // the type used inside the heap
+
+// COMPARISON FUNCTIONS
+// ====================
+
+// Returns whether the priority of a is less than b
+static inline int lt(heap_value_t a, heap_value_t b) { return a < b; }
+// Returns whether the priority of a is less than or equal to b.
+static inline int lte(heap_value_t a, heap_value_t b) {
+  return a <= b;
+}
 
 // DESCENDING HEAP SORT FUNCTION
 // =============================
