@@ -23,16 +23,16 @@ priority_queue *alloc_priority_queue(size_t capacity) {
 
 size_t priority_queue_size(const priority_queue *q) { return q->size; }
 
-queue_value_t priority_queue_peek_min(const priority_queue *q) {
+queue_value_t priority_queue_peek(const priority_queue *q) {
   assert(q->size > 0);
-  return min_heap_minimum(q->arr, q->size);
+  return heap_minimum(q->arr, q->size);
 }
 
-void priority_queue_pop_min(priority_queue *q) {
-  min_heap_extract_min(q->arr, q->size--);
+void priority_queue_pop(priority_queue *q) {
+  heap_extract_min(q->arr, q->size--);
 }
 
 void priority_queue_insert(priority_queue *q, queue_value_t key) {
   assert(q->size < q->capacity);
-  min_heap_insert(q->arr, q->size++, key);
+  heap_insert(q->arr, q->size++, key);
 }

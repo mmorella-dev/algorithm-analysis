@@ -53,7 +53,7 @@ int main() {
 
   // Test #1: put `nums` in heap order
   printf("Test #1: Calling min_heap_build...\n");
-  min_heap_build(nums, nums_len);
+  heap_build(nums, nums_len);
   printf(" -- Result: ");
   print_array(nums, nums_len);
   assert(is_heap(nums, 0, nums_len));
@@ -61,7 +61,7 @@ int main() {
 
   // Test #2: The heapsorted array is in descending order:
   printf("Test #2: Calling min_heapsort...\n");
-  min_heapsort(nums, nums_len);
+  heap_sort(nums, nums_len);
   printf(" -- Result: ");
   print_array(nums, nums_len);
   assert(is_descending(nums, nums_len));
@@ -89,8 +89,8 @@ int main() {
   printf("Test #5: Popping elements from queue...\n");
   while (q_ptr->size > 0) {
     assert(is_heap(q_ptr->arr, 0, q_ptr->size));
-    printf("-- priority_queue_pop_min()... ");
-    priority_queue_pop_min(q_ptr);
+    printf("-- priority_queue_pop()... ");
+    priority_queue_pop(q_ptr);
     print_array(q_ptr->arr, q_ptr->size);
     // rigorously test that arr[0, size) is a heap after every operation
   }
