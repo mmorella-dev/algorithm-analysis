@@ -7,6 +7,9 @@
 // A.size), the child elements at A[i*2+1] and A[i*2+2] are greater than A[i],
 // or do not exist.
 
+#ifndef MINHEAP0_H
+#define MINHEAP0_H
+
 #include <limits.h>  // for INT_MAX
 #include <stdlib.h>  // for size_t
 
@@ -53,3 +56,5 @@ void heap_decrease_key(heap_value_t a[], size_t i, heap_value_t key);
 // are min-heaps. heap_size < i.
 // Postcondition: The binary tree rooted at a[i] is a min-heap.
 void min_heapify(heap_value_t a[], size_t heap_size, size_t i);
+
+#endif /* MINHEAP0_H */

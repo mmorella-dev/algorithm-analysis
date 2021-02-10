@@ -6,6 +6,9 @@
 // structure whose smallest element can be accessed in O(1). The insert and
 // pop_min operations execute in O(log n).
 
+#ifndef PRIORITY_QUEUE_H
+#define PRIORITY_QUEUE_H
+
 #include <stdlib.h>  // for size_t
 
 #include "minheap0.h"  // for heap_value_t
@@ -44,3 +47,5 @@ void priority_queue_pop_min(priority_queue *q);
 // Adds a new element to the queue.
 // Precondition: q.size != q.capacity (the queue is not full)
 void priority_queue_insert(priority_queue *q, queue_value_t key);
+
+#endif /* PRIORITY_QUEUE_H */
