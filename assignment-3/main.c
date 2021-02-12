@@ -68,7 +68,7 @@ int main() {
   // Test #1: put `nums` in heap order
   printf("Test #1: Calling min_heap_build...\n");
   heap_build(nums, nums_len);
-  printf(" -- Result: ");
+  printf("-- Result: ");
   print_array(nums, nums_len);
   assert(is_heap(nums, 0, nums_len));
   printf("✔️ Array is in heap order.\n\n");
@@ -76,7 +76,7 @@ int main() {
   // Test #2: The heapsorted array is in descending order:
   printf("Test #2: Calling min_heapsort...\n");
   heap_sort(nums, nums_len);
-  printf(" -- Result: ");
+  printf("-- Result: ");
   print_array(nums, nums_len);
   assert(is_descending(nums, nums_len));
   printf("✔️ Array is sorted.\n\n");
