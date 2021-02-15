@@ -41,7 +41,7 @@ void priority_heapify(priority_queue *q, size_t i) {
 // ========================
 priority_queue *alloc_priority_queue(size_t capacity) {
   priority_queue *p =
-      (priority_queue *)malloc(sizeof(*p) + capacity * sizeof(queue_value));
+      malloc(sizeof(priority_queue) + sizeof(queue_value[capacity]));
   if (p) {
     p->size = 0;
     p->capacity = capacity;
