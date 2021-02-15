@@ -3,12 +3,93 @@
 KSU College of Computing and Software Engineering<br>
 CS 4306 - Algorithm Analysis
 
+Mae Morella ([mmorella@students.kennesaw](mailto:mmorella@students.kennesaw))
+Feb 12, 2021
 
 ## Problem Statement
 
-1. Implement a priority queue using a heap data structure.
+1. Implement a priority queue using a heap data structure, including the **Heapsort(A)**, **Heapify(A, i)** and **Heap-Extract-Min(A)** algorithms shown in Chapter 6 of the Cormen, Leiserson, Rivest & Stein textbook.
+2. Analyze the time complexity of the heapsort algorithm.
 
-## Appendix B: Screenshot of execution
+## Algorithms
+
+### Definining the types
+
+#### The priority queue object
+
+The textbook defines a heap as an array object $A$ with properties $A.length$ and $A.heap\_size$. In the C language, defining such an object is most easily done using a structure:
+
+```c
+struct priority_queue {
+  size_t capacity;      // maximum num of elements
+  size_t size;          // current num of elements in queue
+  queue_value arr[];    // a dynamic array with indices [0, capacity)
+}
+```
+
+#### Queue element type
+
+```c
+typedef int queue_value; // the type stored in the queue
+```
+
+Note the use of the custom type `queue_value`. In C, creating generic data structures is not very easy, but I wanted to create an implementation which could contain any object, at least theoretically.
+
+The implementation is currently defined to use integers, but this can easily be changed to any type just by modifying this part of the code, and the next.
+
+#### Queue comparison function
+
+To support ordering elements based on any property (not just the `>` and `<` operators on numbers), I also declared an inline function for comparing the priority of two elements. Because I'm implementing a **minimum-heap**, the lesser of two integers gets "higher" priority. If this property were reversed, the implementation would become a max-heap.
+
+```c
+// Returns a positive number if a has greater priority than b
+// Returns a negative number if a has less priority than b
+// Returns 0 if a and b have the same priority.
+static inline int queue_compare(queue_value a, queue_value b) {
+  return (a < b) ? 1 : (a == b) ? 0 : -1;
+}
+```
+
+From the pseudocode, comparisons like $A[i] > A[\text{Left}(i)]$ will be implemented as something like `queue_compare(A[i], A[left(i)]) < 0`.
+
+In a min-heap, `comp(a, b) < 0` means "a is greater than b" and thus "a has higher priority than b" and belongs first in the array. It's easy to get these comparisons confused, so the test program (shown later) is very important to making sure the algorithms are actually doing what it's supposed to. In the actual implementation I created more inline functions to make such comparisons more readable.
+
+#### Arrays starting at 0, not 1
+
+I should also note that while the textbook defines $A$ as being indexed starting with one, arrays in C are indexed from zero. Therefore, any time the pseudocode asks for $\text{Left}(i) \rightarrow 2i$, I use `2 * i + 1`, and $\text{Right}(i) \rightarrow$ becomes `2 * i + 2`.
+
+With the above definitions, it should be fairly trivial to begin translating pseudocode into C functions.
+
+### 1: $\text{Heapify}(A, i)$
+
+```c
+// PRECOND: The nodes at arr[2i+1] and a[2i+2], if they exist, are min-heaps.
+// PRECOND: heap_size > i.
+// POSTCOND: The binary tree rooted at a[i] is a min-heap.
+void priority_heapify(priority_queue *q, size_t i) {
+  // Find the smallest node, between the current node and its children
+  size_t smallest = i;
+  size_t l = 2 * i + 1;
+  if (l < q->size && queue_lt(q->arr[l], q->arr[smallest]))
+    smallest = l;
+  size_t r = 2 * i + 2;
+  if (r < q->size && queue_lt(q->arr[r], q->arr[smallest]))
+    smallest = r;
+  // If a[i] is not smaller than its children, swap and recurse
+  if (smallest != i) {
+    queue_value temp = q->arr[i];
+    q->arr[i] = q->arr[smallest];
+    q->arr[smallest] = temp;
+    priority_heapify(q, smallest);
+  }
+}
+```
+
+###
+
+## Appendices
+
+### Appendix A: Screenshots of execution
 
 ![](scr-c.png)
 
@@ -64,7 +145,7 @@ Test #5: Popping elements from queue...
 ✔️ Priority queue is a heap.
 ```
 
-## Appendix A: C Code
+### Appendix B: Source code
 
 ### `main.c`
 
