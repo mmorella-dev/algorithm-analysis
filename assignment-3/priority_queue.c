@@ -16,6 +16,9 @@ static inline int queue_lte(queue_value a, queue_value b) {
   return queue_compare(a, b) >= 0;
 }
 
+// PRECOND: If they exist, the binary trees rooted at arr[2i+1] and arr[2i+2]
+// are min-heaps or leaves. and heap_size > i.
+// POSTCOND: The binary tree rooted at arr[i] is a min-heap.
 void priority_heapify(priority_queue *q, size_t i) {
   size_t l = 2 * i + 1;
   size_t r = 2 * i + 2;

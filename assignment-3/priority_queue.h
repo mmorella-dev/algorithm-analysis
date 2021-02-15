@@ -17,10 +17,9 @@
 
 typedef int queue_value;  // The type stored in the queue.
 
-// Returns a number comparing the relative priority of two elements
-// If a == b, returns 0
-// If a has less priority than b, returns a positive number
-// If a has more priority than b, returns a negative number
+// Returns a positive number if a has greater priority than b
+// Returns a negative number if a has less priority than b
+// Returns 0 if a and b have the same priority.
 static inline int queue_compare(queue_value a, queue_value b) {
   return (a < b) ? 1 : (a == b) ? 0 : -1;
 }
@@ -32,9 +31,9 @@ static inline int queue_compare(queue_value a, queue_value b) {
 // If the queue is only modified by the given functions, its internal array arr
 // will maintain the min-heap property for the elements [0, size)
 typedef struct priority_queue {
-  size_t capacity;      // the maximum number of elements the queue can hold
-  size_t size;          // the current number of elements in the queue
-  queue_value arr[];  // an array of size `capacity`. [0, size)
+  size_t capacity;    // maximum num of elements
+  size_t size;        // current num of elements in queue
+  queue_value arr[];  // a dynamic array with indices [0, capacity)
 } priority_queue;
 
 // Creates a new priority_queue of the given capacity
