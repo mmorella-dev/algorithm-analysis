@@ -53,7 +53,7 @@ void _prq_heapify(queue_value a[], size_t size, size_t i) {
     a[largest] = temp;
     _prq_heapify(a, size, largest);
   }
-  assert(_prq_is_heap(a, size, i)); // verify postcondition
+  assert(_prq_is_heap(a, size, i));  // verify postcondition
 }
 
 // Builds a heap
@@ -63,7 +63,7 @@ void _prq_heap_build(queue_value a[], size_t size) {
   for (int i = size / 2; 0 <= i; --i) {
     _prq_heapify(a, size, i);
   }
-  assert(_prq_is_heap(a, size, 0)); // verify postcondition
+  assert(_prq_is_heap(a, size, 0));  // verify postcondition
 }
 
 // Sorts an array using heaps
@@ -79,13 +79,13 @@ void heap_sort(queue_value a[], size_t size) {
     size--;
     _prq_heapify(a, size, 0);
   }
-  assert(_prq_is_sorted(a, size)); // verify postcondition
+  assert(_prq_is_sorted(a, size));  // verify postcondition
 }
 
 // Returns the element with the largest key
 // PRECOND: size != 0
 queue_value _prq_heap_max(const queue_value a[], size_t size) {
-  assert(size != 0); // verify precondition
+  assert(size != 0);  // verify precondition
   return a[0];
 }
 
@@ -93,7 +93,7 @@ queue_value _prq_heap_max(const queue_value a[], size_t size) {
 // PRECOND:  size != 0
 // POSTCOND: size = size - 1
 queue_value _prq_heap_extract_max(queue_value a[], size_t *size) {
-  assert(*size > 0); // verify precondition
+  assert(*size > 0);  // verify precondition
   queue_value min = a[0];
   --(*size);
   a[0] = a[*size - 1];
