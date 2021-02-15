@@ -57,7 +57,10 @@ queue_value priority_queue_peek(const priority_queue *q) {
 }
 
 void priority_queue_pop(priority_queue *q) {
-  heap_extract_min(q->arr, q->size--);
+  assert(q->size > 0);
+  queue_value min = q->arr[0];
+  q->arr[0] = q->arr[--q->size - 1];
+  priority_heapify(q, 0);
 }
 
 void priority_queue_insert(priority_queue *q, queue_value key) {
