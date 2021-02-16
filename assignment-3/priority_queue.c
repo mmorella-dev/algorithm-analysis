@@ -13,11 +13,11 @@
 
 // For the node at a[i], returns the index of the right child.
 static inline size_t _prq_left(size_t i) { return i * 2 + 1; }
+
 // For the node at a[i], returns the index of the right child
-
 static inline size_t _prq_right(size_t i) { return i * 2 + 2; }
-// For the node at a[i], returns the index of the parent node
 
+// For the node at a[i], returns the index of the parent node
 static inline size_t _prq_parent(size_t i) { return (i + 1) / 2 - 1; }
 
 // Returns whether a has greater priority than b
