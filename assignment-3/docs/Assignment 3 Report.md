@@ -3,9 +3,6 @@
 KSU College of Computing and Software Engineering<br>
 CS 4306 - Algorithm Analysis
 
-Mae Morella ([mmorella@students.kennesaw](mailto:mmorella@students.kennesaw))
-Feb 12, 2021
-
 ## Screenshot of code execution
 
 ![](scr-c.png)
