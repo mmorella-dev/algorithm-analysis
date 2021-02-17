@@ -40,6 +40,8 @@ static inline bool _prq_gte(queue_value a, queue_value b) {
 void _prq_heapify(queue_value a[], size_t size, size_t i) {
   size_t l = _prq_left(i);
   size_t r = _prq_right(i);
+  assert(_prq_is_heap(a, l, size));
+  assert(_prq_is_heap(a, r, size));
   size_t largest = i;
   if (l < size && _prq_gt(a[l], a[largest])) {
     largest = l;
