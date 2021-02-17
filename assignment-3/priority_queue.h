@@ -53,11 +53,12 @@ size_t priority_queue_size(const priority_queue *q);
 queue_value priority_queue_peek(const priority_queue *q);
 
 // Removes the highest priority element in the queue.
-// If the queue is empty, does nothing
+// If the queue is empty, this function fails silently.
 void priority_queue_pop(priority_queue *q);
 
 // Adds a new element to the queue.
-// Precondition: q.size != q.capacity (the queue is not full)
+// Postcondition: If the queue is full, this function fails silently and the
+// queue remains unchanged.
 void priority_queue_insert(priority_queue *q, queue_value key);
 
 // HEAP SORT FUNCTION
