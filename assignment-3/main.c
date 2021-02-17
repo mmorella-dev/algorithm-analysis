@@ -22,8 +22,11 @@ void print_array(queue_value arr[], size_t size) {
 
 int main() {
   // Initialize an unsorted array of integers:
-  queue_value nums[] = {8, 6, 7, 5, 3, 0, 9, 80, 60, 70, 50, 30, 0, 90};
+  queue_value nums[10];
   const size_t nums_len = sizeof(nums) / sizeof(nums[0]);
+  for (int i = 0; i < nums_len; i++) {
+    nums[i] = rand() % 100 - 9;
+  }
   printf("- Original array: ");
   print_array(nums, nums_len);
 
@@ -65,5 +68,6 @@ int main() {
   assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
   printf("✔️ Priority queue is a heap.\n\n");
 
+  free(q_ptr);
   return EXIT_SUCCESS;
 }
