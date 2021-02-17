@@ -62,7 +62,7 @@ void _prq_heapify(queue_value a[], size_t size, size_t i) {
 // PRECOND:  a[] is an unordered array
 // POSTCOND: The elements in range a[0, size) are now a heap.
 void _prq_heap_build(queue_value a[], size_t size) {
-  for (int i = size / 2; 0 <= i; --i) {
+  for (int i = (size - 1) / 2; 0 <= i; --i) {
     _prq_heapify(a, size, i);
   }
   assert(_prq_is_heap(a, size, 0));  // verify postcondition
