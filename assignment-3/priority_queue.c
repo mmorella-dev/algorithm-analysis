@@ -86,7 +86,7 @@ void heap_sort(queue_value a[], size_t size) {
 
 // Returns the element with the largest key
 // PRECOND: size != 0
-queue_value _prq_heap_max(const queue_value a[], size_t size) {
+queue_value _prq_heap_peek(const queue_value a[], size_t size) {
   assert(size != 0);  // verify precondition
   return a[0];
 }
@@ -94,7 +94,7 @@ queue_value _prq_heap_max(const queue_value a[], size_t size) {
 // Removes the element with the largest key
 // PRECOND:  size != 0
 // POSTCOND: size = size - 1
-queue_value _prq_heap_extract_max(queue_value a[], size_t *size) {
+queue_value _prq_heap_extract(queue_value a[], size_t *size) {
   assert(*size > 0);  // verify precondition
   queue_value min = a[0];
   --(*size);
@@ -107,7 +107,7 @@ queue_value _prq_heap_extract_max(queue_value a[], size_t *size) {
 // PRECOND: The binary tree rooted at a[i] is a heap, or nonexistent
 // PRECOND: The key of input `k` is larger than the key of a[i]
 // POSTCOND: The
-void _prq_heap_increase_key(queue_value a[], size_t i, queue_value k) {
+void _prq_heap_change_key(queue_value a[], size_t i, queue_value k) {
   a[i] = k;
   while (i > 0 && _prq_gt(a[i], a[_prq_parent(i)])) {
     queue_value temp = a[i];
@@ -119,7 +119,7 @@ void _prq_heap_increase_key(queue_value a[], size_t i, queue_value k) {
 
 void _prq_heap_insert(queue_value a[], size_t *size, queue_value key) {
   assert(_prq_is_heap(a, *size, 0));
-  _prq_heap_increase_key(a, *size, key);
+  _prq_heap_change_key(a, *size, key);
   ++(*size);
   assert(_prq_is_heap(a, *size, 0));
 }
@@ -164,15 +164,17 @@ priority_queue *alloc_priority_queue(size_t capacity) {
 size_t priority_queue_size(const priority_queue *q) { return q->size; }
 
 queue_value priority_queue_peek(const priority_queue *q) {
-  return _prq_heap_max(q->arr, q->size);
+  return _prq_heap_peek(q->arr, q->size);
 }
 
 void priority_queue_pop(priority_queue *q) {
   if (q->size > 0) {
-    _prq_heap_extract_max(q->arr, &q->size);
+    _prq_heap_extract(q->arr, &q->size);
   }
 }
 
 void priority_queue_insert(priority_queue *q, queue_value v) {
-  _prq_heap_insert(q->arr, &q->size, v);
+  if (q->size != q->capacity) {
+    _prq_heap_insert(q->arr, &q->size, v);
+  }
 }
