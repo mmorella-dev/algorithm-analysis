@@ -6,10 +6,14 @@ CS 4306 - Algorithm Analysis
 Mae Morella ([mmorella@students.kennesaw](mailto:mmorella@students.kennesaw))
 Feb 12, 2021
 
+## Screenshot of code execution
+
+![](scr-c.png)
+
 ## Problem Statement
 
 1. Implement a minimum priority queue using a heap data structure, including the descending **Heapsort(A)**, as well as the **Heapify(A, i)** and **Heap-Extract-Min(A)** algorithms shown in Chapter 6 of the Cormen, Leiserson, Rivest & Stein textbook.
-2. Analyze the time complexity of the heapsort algorithm.
+2. Analyze the time complexity of the algorithmss.
 
 ## Implementing Algorithms
 
@@ -363,9 +367,7 @@ int main() {
 
 ## Appendices
 
-### Appendix A: Screenshots of execution
-
-![](scr-c.png)
+### Appendix A: Program output
 
 ### Output
 
@@ -419,7 +421,7 @@ Test #5: Popping elements from queue...
 ✔️ Priority queue is a heap.
 ```
 
-### Appendix B: Source code
+### Appendix B: Full Source code
 
 ### `main.c`
 
