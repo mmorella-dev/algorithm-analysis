@@ -4,6 +4,7 @@
 
 #include "priority_queue.h"
 
+// #define NDEBUG        // uncomment to disable assert()
 #include <assert.h>   // for assert
 #include <stdbool.h>  // for bool
 #include <stddef.h>   // for size_t
@@ -34,13 +35,12 @@ static inline bool _prq_gte(queue_value a, queue_value b) {
 // ==============================
 
 // Recursively maintains the heap property
-// PRECOND: The binary trees rooted at a[left(i)] and a[right(i)] are heaps or
-//    nonexistent.
-// POSTCOND:  The binary tree rooted at a[i] is correctly ordered.
+// Precond: The trees rooted at left(i) and right(i) are heaps, or nonexistent.
+// Postcond:  The binary tree rooted at a[i] is correctly ordered.
 void _prq_heapify(queue_value a[], size_t size, size_t i) {
   size_t l = _prq_left(i);
   size_t r = _prq_right(i);
-  assert(_prq_is_heap(a, l, size));
+  assert(_prq_is_heap(a, l, size));  // verify precondition
   assert(_prq_is_heap(a, r, size));
   size_t largest = i;
   if (l < size && _prq_gt(a[l], a[largest])) {
