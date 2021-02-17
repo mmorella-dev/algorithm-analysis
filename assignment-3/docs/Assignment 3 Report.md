@@ -13,7 +13,7 @@ Feb 12, 2021
 ## Problem Statement
 
 1. Implement a minimum priority queue using a heap data structure, including the descending **Heapsort(A)**, as well as the **Heapify(A, i)** and **Heap-Extract-Min(A)** algorithms shown in Chapter 6 of the Cormen, Leiserson, Rivest & Stein textbook.
-2. Analyze the time complexity of the algorithmss.
+2. Analyze the time complexity of the algorithms.
 
 ## Implementing Algorithms
 
@@ -26,10 +26,10 @@ Cormen et al. shows pseudocode for the following heap and priority queue algorit
 3. $\text{Heap-Sort}(A, i)$ - which sorts an array in ascending order.
 4. $\text{Heap-Max}(A)$ - which returns the highest priority element
 5. $\text{Heap-Extract-Max}(A)$ - which removes the highest priority element
-6. $\text{Heap-Increase-Key}(A, i, k)$ - modifies a value at an index while maintaining order
-7. $\text{Heap-Insert(A, k)}$ - inserts a value to the correct position in the heap
+6. $\text{Heap-Increase-Key}(A, i, k)$ - which modifies a value at an index while maintaining order
+7. $\text{Heap-Insert(A, k)}$ - which inserts a value to the correct position in the heap
 
-The textbook defines the argument $A$ as an array object representing a binary heap. It has the property $A.\text{heap\_size}$ (representing the number of items in the heap) and $A.\text{length}$ (representing the total capacity of the array). The elements in the range $A[1, A.\text{heap\_size}]$ are expected to be in heap order.
+The textbook defines the argument $A$ as an array object representing a binary heap. It has the property $A.\text{heap_size}$ (representing the number of items in the heap) and $A.\text{length}$ (representing the total capacity of the array). The elements in the range $A[1, A.\text{heap_size}]$ are expected to be in heap order.
 
 ### Differences from the pseudocode
 
@@ -38,6 +38,8 @@ In theory, it should be simple to begin translating the given pseudocode into C 
 #### Array indices start from 0
 
 In C (and C-like languages), array indices start at `a[0]`, not `a[1]`. As a consequence, functions like $\text{Left}(i) = 2i$ and $\text{Right}(i) = 2i + 1$ must be implemented as `(2 * i) + 1` and `(2 * i) + 2` respectively. There are many such indices in the pseudocode which must be carefully modified from the pseudcode.
+
+In the C implementation, the heap array will instead be definend on the range $A[0, size)$
 
 #### Non-integer data types
 
@@ -51,7 +53,7 @@ typedef int queue_value;  // The type of values stored in the queue.
 
 #### Defining "Array Objects"
 
-In more abstracted language like Java or C++, it would be simple to represent the underlying "array object" $A$ as a variable-size list, such as a java.util.ArrayList, or the C++ std::vector. The number of elements in that list at any given moment would be the $\text{heap\_size}$, and the $\text{capacity}$ could be made arbitrarily large.
+In more abstracted language like Java or C++, it would be simple to represent the underlying "array object" $A$ as a variable-size list, such as a java.util.ArrayList, or the C++ std::vector. The number of elements in that list at any given moment would be the $\text{heap_size}$, and the $\text{capacity}$ could be made arbitrarily large.
 
 For the C implementations of the algorithms, I'll take in the array as a `queue_value[]` with some fixed size, and accept the `size` property as a separate parameters. By asserting a precondition, I'll simply assume that this size will never exceed the underlying array capacity.
 
@@ -188,7 +190,7 @@ void _prq_heapify(queue_value a[], size_t size, size_t i) {
 }
 ```
 
-Where $n = A.\text{heap\_size}$, the maximum size of a child tree is $2n/3$. As explained in the textbook, the running time of this algorithm is thus defined by the recurrence relation:
+Where $n = A.\text{heap_size}$, the maximum size of a child tree is $2n/3$. As explained in the textbook, the running time of this algorithm is thus defined by the recurrence relation:
 
 $$
 T(n) \le T(2n/3) + \Theta(C)
