@@ -140,6 +140,20 @@ In the next section, I will show both the priority_queue function implementation
 
 ### Writing the heap algorithm implementations
 
+#### 0. Left, Right, and Parent
+
+```c
+static inline size_t _prq_left(size_t i) { return i * 2 + 1; }
+```
+
+```c
+static inline size_t _prq_right(size_t i) { return i * 2 + 2; }
+```
+
+```c
+static inline size_t _prq_parent(size_t i) { return (i + 1) / 2 - 1; }
+```
+
 #### 1. Heapify
 
 The recursive $\text{Heapify}(A, i)$ function is shown below. Notable is the inclusion of several `assert` statements which verify that the function's precondition and postconditions are both working as expected. If a macro `NDEBUG` ("no debug") is defined at compile-time, these assert statements will be ignored, and so ultimately will not contribute to the complexity of these algorithms when used in "production" code.
@@ -176,7 +190,7 @@ $$
 T(n) \le T(2n/3) + \Theta(C)
 $$
 
-The running time of $\text{Heapify}(A)$ is $O(\log n)$.
+The running time of $\text{Heapify}(A)$ is $O(\log n)$. In other words, with respect to the height of the tree $h$, it is $O(h)$.
 
 #### 2. Build-Heap
 
@@ -221,7 +235,11 @@ void heap_sort(queue_value a[], size_t size) {
 }
 ```
 
-This function performs a loop $n-1$ times, and within that loop it calls $\text{Heapify}$, which takes $O(\log n)$. Therefore, the time complexity is $O(n \log n)$.
+This function performs a loop $n-1$ times, and within that loop it calls $\text{Heapify}$, which takes $O(\log n)$.
+
+$$
+\sum_{i = 0}^{n} (\log n) = n (\log n) \implies O(n \log n)
+$$
 
 #### 4. Heap-Peek
 
@@ -288,8 +306,13 @@ void _prq_heap_change_key(queue_value a[], size_t i, queue_value k) {
 }
 ```
 
-#### 7. Heap-Insert
+This function loops once for every time $i = \text{Parent}(i)$ does not result in $i \le 0$; thus, the number of executions is the same as the depth of the current node. In the worst case, this is the same as the *height* of the heap, which is bounded by $\Theta (\log n)$.
 
+$$
+\sum_{i=0}^{\lfloor \log n \rfloor} \left( 1 \right) \approx \log n \implies O(\log n)
+$$
+
+#### 7. Heap-Insert
 
 ```c
 void _prq_heap_insert(queue_value a[], size_t *size, queue_value key) {
@@ -300,7 +323,6 @@ void _prq_heap_insert(queue_value a[], size_t *size, queue_value key) {
 }
 ```
 
-
 ```c
 void priority_queue_insert(priority_queue *q, queue_value v) {
   if (q->size != q->capacity) {
@@ -309,8 +331,35 @@ void priority_queue_insert(priority_queue *q, queue_value v) {
 }
 ```
 
+This function merely performs a constant amount of work on top of the  $\text{Heap-Change-Key}$ implementation, so it too has a running time in $O(\log n)$.
 
-###
+#### The main program
+
+Finally, tor the sake of testing these operations, I developed the program in `main.c` to demonstrate the usage of the priority_queue algorithms. A screenshot of the full execution of this code is shown in Appendix A.
+
+```c
+// excerpt from main.c
+// ...
+int main() {
+  // ...
+  priority_queue *q_ptr = alloc_priority_queue(nums_len);
+  assert(q_ptr != NULL && q_ptr->size == 0);
+  printf("✔️ Priority queue allocated successfully.\n\n");
+
+  printf("Test #3: Inserting random elements...\n");
+  srand(time(NULL));
+  for (int i = 0; i < q_ptr->capacity; i++) {
+    int value = rand() % 100 - 9;
+    printf("-- priority_queue_insert(%2d)... ", value);
+    // call priority_queue_insert
+    priority_queue_insert(q_ptr, value);
+    print_array(q_ptr->arr, q_ptr->size);
+  }
+  assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
+  printf("✔️ Priority queue is a heap.\n\n");
+  // ...
+}
+```
 
 ## Appendices
 
@@ -375,26 +424,345 @@ Test #5: Popping elements from queue...
 ### `main.c`
 
 ```c
-```
+// FILE:   main.c
+// AUTHOR: Mae Morella
+// ===================
 
-### `minheap0.h`
+// Implements a test program for the min_heap and priority_queue data structures
+// defined in minheap0.h
 
-```c
-// paste in later
-```
+#include <assert.h>   // for assert
+#include <stdbool.h>  // for boolean type
+#include <stdio.h>    // for printf function
+#include <stdlib.h>   // for size_t, rand, EXIT_SUCCESS
+#include <time.h>     // for time
 
-### `minheap0.c`
+#include "priority_queue.h"
 
-```c
-// paste in later
+// Helper function to print an array
+// Prints out the array elements at arr[0, size)
+void print_array(queue_value arr[], size_t size) {
+  for (int i = 0; i < size; i++) printf("%2d ", arr[i]);
+  printf("\n");
+}
+
+int main() {
+  // Initialize an unsorted array of integers:
+  queue_value nums[10];
+  const size_t nums_len = sizeof(nums) / sizeof(nums[0]);
+  for (int i = 0; i < nums_len; i++) {
+    nums[i] = rand() % 100 - 9;
+  }
+  printf("- Original array: ");
+  print_array(nums, nums_len);
+
+  // Test #2: The heapsorted array is in descending order:
+  printf("Test #1: Calling min_heapsort...\n");
+  heap_sort(nums, nums_len);
+  printf("-- Result: ");
+  print_array(nums, nums_len);
+  assert(_prq_is_sorted(nums, nums_len));
+  printf("✔️ Array is sorted.\n\n");
+
+  // Test #3: Create a struct priority_queue.
+  printf("Test #2: Calling alloc_priority_queue...\n");
+  priority_queue *q_ptr = alloc_priority_queue(nums_len);
+  assert(q_ptr != NULL && q_ptr->size == 0);
+  printf("✔️ Priority queue allocated successfully.\n\n");
+
+  printf("Test #3: Inserting random elements...\n");
+  srand(time(NULL));
+  for (int i = 0; i < q_ptr->capacity; i++) {
+    assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
+    int value = rand() % 100 - 9;
+    printf("-- priority_queue_insert(%2d)... ", value);
+    priority_queue_insert(q_ptr, value);
+    print_array(q_ptr->arr, q_ptr->size);
+    // rigorously test that arr[0, size) is a heap after every operation
+  }
+  assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
+  printf("✔️ Priority queue is a heap.\n\n");
+
+  printf("Test #4: Popping elements from queue...\n");
+  while (q_ptr->size > 0) {
+    assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
+    printf("-- priority_queue_pop()... ");
+    priority_queue_pop(q_ptr);
+    print_array(q_ptr->arr, q_ptr->size);
+    // rigorously test that arr[0, size) is a heap after every operation
+  }
+  assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
+  printf("✔️ Priority queue is a heap.\n\n");
+
+  free(q_ptr);
+  return EXIT_SUCCESS;
+}
 ```
 
 ### `priority_queue.h`
 
 ```c
+// FILE:   priority_queue.h
+// AUTHOR: Mae Morella
+// ========================
+// An ADT representing a priority queue, a variable-size data
+// structure whose highest priority element can be accessed in O(1).
+// The insert and pop operations execute in O(log n).
+
+#ifndef PRIORITY_QUEUE_H
+#define PRIORITY_QUEUE_H
+
+#include <stdbool.h>  // for bool
+#include <stdlib.h>   // for size_t
+
+// TYPE DEFINITIONS
+// ================
+
+typedef int queue_value;  // The type stored in the queue.
+
+// Compares the priority of two queue elements
+// Returns 0 if a and b have equal priority
+// Returns positive if a has greater priority than b
+// Returns negative if a has less priority than b
+static inline int compare_queue_values(const queue_value *a,
+                                       const queue_value *b) {
+  return (*a < *b) - (*a > *b);  // min-heap property.
+}
+
+// PRIORITY QUEUE DATA STRUCTURE
+// =============================
+
+// Represents a priority queue data structure of dynamic size.
+// If the queue is only modified by the given functions, its internal array
+// arr will maintain the min-heap property for the elements [0, size)
+typedef struct priority_queue {
+  size_t capacity;    // maximum num of elements
+  size_t size;        // current num of elements in queue
+  queue_value arr[];  // a dynamic array with indices [0, capacity)
+} priority_queue;
+
+// Creates a new priority_queue of the given capacity
+// Precondition: capacity > 0
+// Postcondition: the return value points to a priority_queue, or is NULL
+priority_queue *alloc_priority_queue(size_t capacity);
+
+// Returns the number of elements in a priority queue
+// Equivalent to accessing q.size
+size_t priority_queue_size(const priority_queue *q);
+
+// Returns the smallest element in the queue.
+// Precondition: q.size != 0 (the queue is not empty)
+queue_value priority_queue_peek(const priority_queue *q);
+
+// Removes the highest priority element in the queue.
+// If the queue is empty, this function fails silently.
+void priority_queue_pop(priority_queue *q);
+
+// Adds a new element to the queue.
+// Postcondition: If the queue is full, this function fails silently and the
+// queue remains unchanged.
+void priority_queue_insert(priority_queue *q, queue_value key);
+
+// HEAP SORT FUNCTION
+// ==================
+
+// Sorts an array in place, using heaps
+// Precondition:  a[] is an unordered array
+// Postcondition: The elements in range a[0, size) are sorted with their keys in
+//           ascending order
+void heap_sort(queue_value a[], size_t size);
+
+// TESTING METHODS
+// ===============
+
+bool _prq_is_heap(const queue_value a[], size_t size, size_t i);
+
+bool _prq_is_sorted(const queue_value a[], size_t size);
+
+#endif /* PRIORITY_QUEUE_H */
 ```
 
 ### `priority_queue.c`
 
 ```c
+// FILE:   priority_queue.c
+// AUTHOR: Mae Morella
+// ========================
+
+#include "priority_queue.h"
+
+// #define NDEBUG        // uncomment to disable assert()
+#include <assert.h>   // for assert
+#include <stdbool.h>  // for bool
+#include <stddef.h>   // for size_t
+
+// HELPER FUNCTIONS
+// ================
+
+// For the node at a[i], returns the index of the right child.
+static inline size_t _prq_left(size_t i) { return i * 2 + 1; }
+
+// For the node at a[i], returns the index of the right child
+static inline size_t _prq_right(size_t i) { return i * 2 + 2; }
+
+// For the node at a[i], returns the index of the parent node
+static inline size_t _prq_parent(size_t i) { return (i + 1) / 2 - 1; }
+
+// Returns whether a has greater priority than b
+static inline bool _prq_gt(queue_value a, queue_value b) {
+  return compare_queue_values(&a, &b) > 0;
+}
+
+// Returns whether a's priority is greater or equal to b's
+static inline bool _prq_gte(queue_value a, queue_value b) {
+  return compare_queue_values(&a, &b) >= 0;
+}
+
+// HEAP ALGORITHM IMPLEMENTATIONS
+// ==============================
+
+// Recursively maintains the heap property
+// Precond: The trees rooted at left(i) and right(i) are heaps, or nonexistent.
+// Postcond:  The binary tree rooted at a[i] is correctly ordered.
+void _prq_heapify(queue_value a[], size_t size, size_t i) {
+  size_t l = _prq_left(i);
+  size_t r = _prq_right(i);
+  assert(_prq_is_heap(a, l, size));  // verify precondition
+  assert(_prq_is_heap(a, r, size));
+  size_t largest = i;
+  if (l < size && _prq_gt(a[l], a[largest])) {
+    largest = l;
+  }
+  if (r < size && _prq_gt(a[r], a[largest])) {
+    largest = r;
+  }
+  if (largest != i) {
+    queue_value temp = a[i];
+    a[i] = a[largest];
+    a[largest] = temp;
+    _prq_heapify(a, size, largest);
+  }
+  assert(_prq_is_heap(a, size, i));  // verify postcondition
+}
+
+// Builds a heap
+// PRECOND:  a[] is an unordered array
+// POSTCOND: The elements in range a[0, size) are now a heap.
+void _prq_heap_build(queue_value a[], size_t size) {
+  for (int i = (size - 1) / 2; 0 <= i; --i) {
+    _prq_heapify(a, size, i);
+  }
+  assert(_prq_is_heap(a, size, 0));  // verify postcondition
+}
+
+// Sorts an array using heaps
+// PRECOND:  a[] is an unordered array
+// POSTCOND: The elements in range a[0, size) are sorted with their keys in
+//           ascending order
+void heap_sort(queue_value a[], size_t size) {
+  _prq_heap_build(a, size);
+  for (int i = size; 2 <= i; --i) {
+    queue_value temp = a[i - 1];
+    a[i - 1] = a[0];
+    a[0] = temp;
+    size--;
+    _prq_heapify(a, size, 0);
+  }
+  assert(_prq_is_sorted(a, size));  // verify postcondition
+}
+
+// Returns the element with the largest key
+// PRECOND: size != 0
+queue_value _prq_heap_peek(const queue_value a[], size_t size) {
+  assert(size != 0);  // verify precondition
+  return a[0];
+}
+
+// Removes the element with the largest key
+// PRECOND:  size != 0
+// POSTCOND: size = size - 1
+queue_value _prq_heap_extract(queue_value a[], size_t *size) {
+  assert(*size > 0);  // verify precondition
+  queue_value min = a[0];
+  --(*size);
+  a[0] = a[*size - 1];
+  _prq_heapify(a, *size, 0);
+  return min;
+}
+
+// Modifies the value at a[i] while maintaining heap property
+// PRECOND: The binary tree rooted at a[i] is a heap, or nonexistent
+// PRECOND: The key of input `k` is larger than the key of a[i]
+// POSTCOND: The
+void _prq_heap_change_key(queue_value a[], size_t i, queue_value k) {
+  a[i] = k;
+  while (i > 0 && _prq_gt(a[i], a[_prq_parent(i)])) {
+    queue_value temp = a[i];
+    a[i] = a[_prq_parent(i)];
+    a[_prq_parent(i)] = temp;
+    i = _prq_parent(i);
+  }
+}
+
+void _prq_heap_insert(queue_value a[], size_t *size, queue_value key) {
+  assert(_prq_is_heap(a, *size, 0));
+  _prq_heap_change_key(a, *size, key);
+  ++(*size);
+  assert(_prq_is_heap(a, *size, 0));
+}
+
+// TESTING METHODS
+// ===============
+
+bool _prq_is_heap(const queue_value a[], size_t size, size_t i) {
+  size_t l = _prq_left(i);
+  size_t r = _prq_right(i);
+  if (r >= size) {
+    return true;
+  }
+  if (_prq_gte(a[i], a[l]) && _prq_gte(a[i], a[r])) {
+    return _prq_is_heap(a, size, l) && _prq_is_heap(a, size, r);
+  }
+  return false;
+}
+
+bool _prq_is_sorted(const queue_value a[], size_t size) {
+  for (int i = 1; i < size; i++) {
+    if (!_prq_gte(a[i], a[i - 1])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// PRIORITY QUEUE PUBLIC FUNCTIONS
+// ===============================
+
+priority_queue *alloc_priority_queue(size_t capacity) {
+  priority_queue *p =
+      malloc(sizeof(priority_queue) + sizeof(queue_value[capacity]));
+  if (p) {
+    p->size = 0;
+    p->capacity = capacity;
+  }
+  return p;
+}
+
+size_t priority_queue_size(const priority_queue *q) { return q->size; }
+
+queue_value priority_queue_peek(const priority_queue *q) {
+  return _prq_heap_peek(q->arr, q->size);
+}
+
+void priority_queue_pop(priority_queue *q) {
+  if (q->size > 0) {
+    _prq_heap_extract(q->arr, &q->size);
+  }
+}
+
+void priority_queue_insert(priority_queue *q, queue_value v) {
+  if (q->size != q->capacity) {
+    _prq_heap_insert(q->arr, &q->size, v);
+  }
+}
 ```
