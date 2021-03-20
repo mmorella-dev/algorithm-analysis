@@ -1,0 +1,3 @@
+# initial.in
+
+This is the initial file. This file contains links to other files. It also contains the string textstr many times. Your program should search text files to find the string textstr. It should begin searching for textstr from this file. There will be references to other text files in initial.in. These files will always follow the REFERENCE tag. A tag now follows. <REFERENCE> A.in refers to the next file name to be searched. Look for the string textstr in another file <REFERENCE> C.in and then keep looking for at all other links you find in this file. And then in each file, look for the string textstr.

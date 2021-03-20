@@ -1,0 +1,19 @@
+# C.in
+
+This file demonstrates that while it's not actually a requirement, loops are handled gracefully. The code simply ignores any reference which was already parsed.
+
+<REFERENCE> C.in (A self reference! :o)
+<REFERENCE> A.in (A circular reference! :O)
+
+10 instances
+============
+textstr
+textstr
+textstr
+textstr
+textstr
+textstr
+textstr
+textstr
+textstr
+textstr
