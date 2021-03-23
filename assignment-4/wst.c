@@ -218,7 +218,7 @@ void wst_main(const char* filename, const char* search) {
   const int* ref_prefix = compute_prefix_function(reftag);
   // Create adjacency matrix
   FileMatrix matrix = generate_reference_matrix(filename, reftag, 30);
-  print_file_matrix(matrix);
+  // print_file_matrix(matrix);
   for (int i = 0; matrix[i] != NULL; i++) {
     FILE* f = fopen(matrix[i]->filename, "r");
     int c = kmp_word_count(f, search);
