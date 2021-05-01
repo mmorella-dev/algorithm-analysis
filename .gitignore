@@ -190,5 +190,6 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/c++,macos,visualstudiocode,clion,codeblocks
 
 **.pdf
+**.docx
 **/*.out
 **/*.dSYM/*
