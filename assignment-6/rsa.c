@@ -2,8 +2,26 @@
  * rsa.c
  * Author: Morella, Mae
  *
- * A simple implementation of the RSA cryptosystem algorithm using small
- * numbers. Extremely breakable. Should not be used for actual cryptography.
+ * MIT license
+ *
+ * Copyright (c) 2021 Morella, Mae
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 #include <assert.h>
@@ -39,11 +57,12 @@ struct EuclidTriple extended_gcd(long a, long b) {
 
 // Returns the multiplicative inverse of a, modulo n
 // Precondition: n > 1, a and n are relatively prime.
-unsigned long mult_inverse_mod(unsigned long a, unsigned long n) {
+unsigned long mult_inverse_mod(long a, long n) {
   struct EuclidTriple t = extended_gcd(a, n);
   assert(t.d == 1);  // verify precond: a, n are coprime iff gcd (a,n) = 1.
   // use modulo twice, to ensure that x is the positive remainder
-  int x = (t.x + n) % n;
+  int x = (t.x % n + n) % n;
+  printf("%d\n", x);
   assert((a * x) % n == 1);  // check that d is the mult inverse
   return x;
 }
@@ -86,7 +105,7 @@ struct KeyPair generate_private_key(unsigned int p, unsigned int q,
                                     unsigned int e) {
   unsigned long n = p * q;
   unsigned long phi = (p - 1) * (q - 1);
-  unsigned int d = mult_inverse_mod(e, phi);
+  int d = mult_inverse_mod(e, phi);
   struct KeyPair private = {d, n};
   return private;
 }
