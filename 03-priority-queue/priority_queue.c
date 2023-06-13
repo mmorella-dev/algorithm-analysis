@@ -140,7 +140,7 @@ bool _prq_is_heap(const queue_value a[], size_t size, size_t i) {
 }
 
 bool _prq_is_sorted(const queue_value a[], size_t size) {
-  for (int i = 1; i < size; i++) {
+  for (size_t i = 1; i < size; i++) {
     if (!_prq_gte(a[i], a[i - 1])) {
       return false;
     }

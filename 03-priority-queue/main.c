@@ -16,7 +16,7 @@
 // Helper function to print an array
 // Prints out the array elements at arr[0, size)
 void print_array(queue_value arr[], size_t size) {
-  for (int i = 0; i < size; i++) printf("%2d ", arr[i]);
+  for (size_t i = 0; i < size; i++) printf("%2d ", arr[i]);
   printf("\n");
 }
 
@@ -24,7 +24,7 @@ int main() {
   // Initialize an unsorted array of integers:
   queue_value nums[10];
   const size_t nums_len = sizeof(nums) / sizeof(nums[0]);
-  for (int i = 0; i < nums_len; i++) {
+  for (size_t i = 0; i < nums_len; i++) {
     nums[i] = rand() % 100 - 9;
   }
   printf("- Original array: ");
@@ -46,7 +46,7 @@ int main() {
 
   printf("Test #3: Inserting random elements...\n");
   srand(time(NULL));
-  for (int i = 0; i < q_ptr->capacity; i++) {
+  for (size_t i = 0; i < q_ptr->capacity; i++) {
     assert(_prq_is_heap(q_ptr->arr, q_ptr->size, 0));
     int value = rand() % 100 - 9;
     printf("-- priority_queue_insert(%2d)... ", value);
