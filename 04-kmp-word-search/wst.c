@@ -81,7 +81,6 @@ bool fseek_to_match(FILE* stream, const char* search, const int* prefix,
 int kmp_word_count(FILE* file, const char* search) {
   int* prefix = compute_prefix_function(search);
   int count = 0;
-  char c;
   int q = 0;
   while (fseek_to_match(file, search, prefix, &q)) {
     count += 1;
@@ -178,7 +177,7 @@ FileMatrix generate_reference_matrix(const char* initial_filename,
   FileMatrix matrix = malloc((capacity + 1) * sizeof(*matrix));
   matrix[0] = parse_references(initial_filename, reftag, ref_prefix);
   size_t matrix_size = 1;
-  for (int i = 0; i < matrix_size; i++) {
+  for (size_t i = 0; i < matrix_size; i++) {
     FileListNode* cur = matrix[i]->next;
     while (cur != NULL) {
       // If it doesn't already exist, add it.
@@ -215,7 +214,7 @@ void free_file_matrix(const FileMatrix matrix) {
 
 void wst_main(const char* filename, const char* search) {
   const char* reftag = "<REFERENCE> ";
-  const int* ref_prefix = compute_prefix_function(reftag);
+  // const int* ref_prefix = compute_prefix_function(reftag);
   // Create adjacency matrix
   FileMatrix matrix = generate_reference_matrix(filename, reftag, 30);
   // print_file_matrix(matrix);
