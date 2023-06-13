@@ -11,6 +11,7 @@
 using std::cin;
 using std::cout;
 using std::vector;
+using std::size_t;
 
 typedef bool cell_t;
 typedef vector<cell_t> row_t;
@@ -24,15 +25,19 @@ grid_t generate_grid(grid_t::size_type rows, row_t::size_type cols) {
 
 // Prompt the user to input values to construct a grid of a given size.
 grid_t generate_grid_from_cin() {
+  // get size
+  size_t size;
   std::cout << "Enter grid size: ";
-  int size;
   std::cin >> size;
+  // make grid
   grid_t grid = generate_grid(size, size);
+  // input grid
   std::cout << "Enter input grid:\n";
-  for (int i = 0; i < size; i++) std::cout << "_ ";
+  // print a row of underscores
+  for (size_t i = 0; i < size; i++) std::cout << "_ ";
   std::cout << "\n";
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < grid[i].size(); j++) {
+  for (size_t i = 0; i < size; i++) {
+    for (size_t j = 0; j < grid[i].size(); j++) {
       cell_t c;
       std::cin >> c;  // read from user input
       grid[i][j] = c;
@@ -44,9 +49,9 @@ grid_t generate_grid_from_cin() {
 // Constructs a boad of the given size populated with random cells.
 grid_t generate_grid_from_random(grid_t::size_type size) {
   grid_t grid = generate_grid(size, size);
-  for (int i = 0; i < grid.size(); i++) {
-    for (int j = 0; j < grid[i].size(); j++) {
-      grid[i][j] = (bool)(random() % 2);
+  for (auto &&row : grid) {
+    for (auto &&cell : row) {
+      cell = (bool)(random() % 2);
     }
   }
   return grid;
@@ -55,7 +60,7 @@ grid_t generate_grid_from_random(grid_t::size_type size) {
 // Check whether the cell at row r, col c is alive.
 // All cells outside of the grid are dead.
 bool is_cell_alive(const grid_t &grid, int r, int c) {
-  if (0 <= r && r < grid.size() && 0 <= c && c < grid[r].size()) {
+  if (0 <= r && r < (int)grid.size() && 0 <= c && c < (int)grid[r].size()) {
     return grid[r][c];
   } else {
     return 0;
@@ -103,18 +108,17 @@ bool cell_will_live(const grid_t &grid, int r, int c) {
 
 // Given a grid, return a new grid with the next state.
 grid_t next_grid(const grid_t &grid) {
-  // generate an empty grid of the same size as the last one.
-  grid_t next_grid = grid_t(grid.size(), row_t(grid[0].size(), 0));
-  for (int i = 0; i < grid.size(); i++) {
-    for (int j = 0; j < grid[i].size(); j++) {
-      next_grid[i][j] = cell_will_live(grid, i, j);
+  auto new_grid = grid;
+  for (size_t i = 0; i < grid.size(); i++) {
+    for (size_t j = 0; j < grid[i].size(); j++) {
+      new_grid.at(i).at(j) = cell_will_live(grid, i, j);
     }
   }
-  return next_grid;
+  return new_grid;
 }
 
 // Given a grid, print out several iterations of it.
-void simulate(grid_t &grid, unsigned int iteration_count) {
+void simulate(grid_t &grid, int iteration_count) {
   for (int i = 0; i <= iteration_count; i++) {
     std::cout << "Iteration #" << i << ":\n";
     std::cout << grid;
