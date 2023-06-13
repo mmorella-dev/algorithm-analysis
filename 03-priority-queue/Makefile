@@ -1,20 +1,10 @@
-TARGET ?= a.out
-SRC_DIRS ?= ./
+TARGET := priority_queue
+CFLAGS := -Wall -Wextra -std=c11
+SOURCE := priority_queue.c main.c
 
-SRCS := $(shell find $(SRC_DIRS) -name \*.cpp -or -name \*.c -or -name \*.s)
-OBJS := $(addsuffix .o,$(basename $(SRCS)))
-DEPS := $(OBJS:.o=.d)
+all: $(TARGET)
 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+$(TARGET): $(SOURCE)
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
-
-$(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $@ $(LOADLIBES) $(LDLIBS)
-
-.PHONY: clean
 clean:
-	$(RM) $(TARGET) $(OBJS) $(DEPS)
-
--include $(DEPS)
+	rm -f $(TARGET)

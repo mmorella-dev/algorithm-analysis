@@ -1,7 +1,6 @@
-CC := gcc
-TARGET := graph
+TARGET := rsa
 CFLAGS := -Wall -Wextra -std=c11
-SOURCE := graph.c main.c
+SOURCE := rsa.c
 
 all: $(TARGET)
 

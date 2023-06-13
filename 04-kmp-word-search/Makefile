@@ -1,7 +1,7 @@
 CC := gcc
-TARGET := graph
+TARGET := wst
 CFLAGS := -Wall -Wextra -std=c11
-SOURCE := graph.c main.c
+SOURCE := wst.c
 
 all: $(TARGET)
 
