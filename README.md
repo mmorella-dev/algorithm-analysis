@@ -1,6 +1,8 @@
-# cs-4306-algorithm-analysis
+# algorithms
 
-Code written for CS 4306
+This repository contains my responses to assignments in CS 4306 Algorithm Analysis in C/C++.
+
+See the README in each subdirectory for explanations of each assignment. Most assignments ask for an algorithm implementation alongside an explanation of its time/space complexity.
 
 ## Disclaimer
 
@@ -10,4 +12,4 @@ This repository contains solutions to school-assigned homework and lab assignmen
 
 ## License
 
-MIT © 2021 Mae Morella
+MIT © 2021, 2023 Mae Morella
