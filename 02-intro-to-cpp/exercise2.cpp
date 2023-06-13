@@ -8,6 +8,18 @@
 #include <numeric>     // for std::accumulate
 #include <vector>      // for std::vector
 
+namespace Exercise2 {
+
+// FUNCTION IMPLEMENTATIONS
+
+bool isPrime(long num) {
+  if (num < 2) return false;
+  for (long i = 2; i * i <= num; i++)
+    if (num % i == 0) return false;
+  return true;
+}
+}  // namespace Exercise2
+
 int main() {
   using namespace Exercise2;
   std::vector<int> v = {10, 5, 15, 12};
@@ -43,15 +55,3 @@ int main() {
   std::cout << '\n';  // final newline
   return 0;
 }
-
-namespace Exercise2 {
-
-// FUNCTION IMPLEMENTATIONS
-
-bool isPrime(long num) {
-  if (num < 2) return false;
-  for (long i = 2; i * i <= num; i++)
-    if (num % i == 0) return false;
-  return true;
-}
-}  // namespace Exercise2
