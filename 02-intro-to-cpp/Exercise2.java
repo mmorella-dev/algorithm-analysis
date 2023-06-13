@@ -20,15 +20,15 @@ class Exercise2 {
 
       int[] outNumbers = myCopy(numbers);
 
-      System.out.println("The oroginal array");
+      System.out.print("The original array: ");
       printNumbers(outNumbers);
 
       myReverse(outNumbers);
 
-      System.out.println("The reverse array");
+      System.out.print("The reverse array: ");
       printNumbers(outNumbers);
 
-      System.out.println("These are the prime numbers in the array");
+      System.out.print("These are the prime numbers in the array: ");
       printPrimeNumbers(outNumbers);
 
    }
@@ -62,7 +62,8 @@ class Exercise2 {
 
    public static void printNumbers(int[] a) {
       for (int i = 0; i < a.length; i++)
-         System.out.println(a[i]);
+         System.out.print(a[i] + " ");
+      System.out.println();
    }
 
    public static void myReverse(int[] a) {
