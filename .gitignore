@@ -193,3 +193,13 @@ Temporary Items
 **.docx
 **/*.out
 **/*.dSYM/*
+
+# names of binaries
+game_of_life
+priority_queue
+ex2
+exercise2
+Exercise2.class
+wst
+graph
+rsa
