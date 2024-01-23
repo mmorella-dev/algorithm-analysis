@@ -2,7 +2,7 @@
 
 This repository contains my responses to assignments in CS 4306 Algorithm Analysis in C/C++.
 
-## Assignment 1: Conway's Game of Life
+## Conway's Game of Life
 
 [game_of_life.cpp](game_of_life.cpp) contains a simple C++ implementation of the "Game of Life" cellular automata.
 
@@ -53,7 +53,7 @@ Iteration #50:
 0 0 0 0 0 0 1 0 0 0 0 0 0 
 50 iterations took 6.171 ms
 ```
-## Assignment 1: Intro to Java and C++
+## 2. Basic Array Operations
 
 This assignment consists of the simple task of rewriting Exercise2.java (a single Java class containing some elementary array operations) into C and C++.
 
@@ -83,7 +83,7 @@ The original array: 10 5 15 12
 The reverse array: 12 15 5 10 
 The prime numbers in the array: 5
 ```
-## 3. Priority Queue
+## 3. Heapsort (with Priority Queue)
 
 This assignment consists of a C implementation a heap-based priority queue similar to the C++ std::priority_queue.
 
@@ -172,7 +172,7 @@ textstr occured 100 times in D.in
 textstr occured 10 times in C.in
 textstr occured 99 times in A.in
 ```
-## 5. Weighted Graph
+## 5. Graph Algorithm
 
 The files [graph.h](graph.h) and [graph.c](graph.c) implement a Graph data structure, along with an algorithm to find articulation points, and Dijkstra’s algorithm for finding the shortest distance between two vertices.
 
@@ -243,4 +243,4 @@ This repository contains solutions to school-assigned homework and lab assignmen
 
 ## License
 
-MIT © 2021, 2023 Mae Morella
+MIT © 2021, 2023, 2024 Mae Morella
