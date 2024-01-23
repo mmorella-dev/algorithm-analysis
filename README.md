@@ -1,4 +1,4 @@
-# algorithms
+# algorithm-analysis
 
 This repository contains my responses to assignments in CS 4306 Algorithm Analysis in C/C++.
 
